@@ -15,6 +15,12 @@ after_install = "library.install.setup_library_workspace"
 doc_events = {
     "Workspace": {
         "before_save": "library.workspace_hooks.workspace_before_save"
+    },
+    "Student": {
+        "after_insert": "library.library.utils.auto_create_library_member_from_student"
+    },
+    "Employee": {
+        "after_insert": "library.library.utils.auto_create_library_member_from_employee"
     }
 }
 

@@ -1,183 +1,241 @@
 {
- "actions": [],
- "creation": "2025-12-16 15:00:00",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "circulation_section",
-  "default_loan_period",
-  "max_renewals",
-  "column_break_1",
-  "reservation_expiry_days",
-  "advance_reservation_days",
-  "fine_section",
-  "enable_fines",
-  "default_fine_per_day",
-  "column_break_2",
-  "lost_book_fine_multiplier",
-  "damage_fine_amount",
-  "notification_section",
-  "send_overdue_reminders",
-  "overdue_reminder_days",
-  "column_break_3",
-  "send_due_date_reminders",
-  "due_date_reminder_days",
-  "barcode_section",
-  "enable_barcode",
-  "barcode_prefix"
- ],
- "fields": [
-  {
-   "fieldname": "circulation_section",
-   "fieldtype": "Section Break",
-   "label": "Circulation Settings"
-  },
-  {
-   "default": "14",
-   "description": "Default number of days for book loans",
-   "fieldname": "default_loan_period",
-   "fieldtype": "Int",
-   "label": "Default Loan Period (Days)"
-  },
-  {
-   "default": "3",
-   "description": "Maximum times a book can be renewed",
-   "fieldname": "max_renewals",
-   "fieldtype": "Int",
-   "label": "Maximum Renewals"
-  },
-  {
-   "fieldname": "column_break_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "3",
-   "description": "Days to hold a reserved book before expiring",
-   "fieldname": "reservation_expiry_days",
-   "fieldtype": "Int",
-   "label": "Reservation Expiry (Days)"
-  },
-  {
-   "default": "30",
-   "description": "Maximum days in advance a book can be reserved",
-   "fieldname": "advance_reservation_days",
-   "fieldtype": "Int",
-   "label": "Advance Reservation Days"
-  },
-  {
-   "fieldname": "fine_section",
-   "fieldtype": "Section Break",
-   "label": "Fine Settings"
-  },
-  {
-   "default": "1",
-   "fieldname": "enable_fines",
-   "fieldtype": "Check",
-   "label": "Enable Fines"
-  },
-  {
-   "default": "5.00",
-   "description": "Default fine amount for overdue books per day",
-   "fieldname": "default_fine_per_day",
-   "fieldtype": "Currency",
-   "label": "Default Fine Per Day"
-  },
-  {
-   "fieldname": "column_break_2",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "2.0",
-   "description": "Multiply book cost by this for lost books (e.g., 2x book cost)",
-   "fieldname": "lost_book_fine_multiplier",
-   "fieldtype": "Float",
-   "label": "Lost Book Fine Multiplier"
-  },
-  {
-   "default": "50.00",
-   "fieldname": "damage_fine_amount",
-   "fieldtype": "Currency",
-   "label": "Damage Fine Amount"
-  },
-  {
-   "fieldname": "notification_section",
-   "fieldtype": "Section Break",
-   "label": "Notification Settings"
-  },
-  {
-   "default": "1",
-   "fieldname": "send_overdue_reminders",
-   "fieldtype": "Check",
-   "label": "Send Overdue Reminders"
-  },
-  {
-   "default": "1",
-   "depends_on": "eval:doc.send_overdue_reminders",
-   "description": "Send reminder after how many days overdue",
-   "fieldname": "overdue_reminder_days",
-   "fieldtype": "Int",
-   "label": "Send Reminder After (Days)"
-  },
-  {
-   "fieldname": "column_break_3",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "send_due_date_reminders",
-   "fieldtype": "Check",
-   "label": "Send Due Date Reminders"
-  },
-  {
-   "default": "2",
-   "depends_on": "eval:doc.send_due_date_reminders",
-   "description": "Send reminder before how many days of due date",
-   "fieldname": "due_date_reminder_days",
-   "fieldtype": "Int",
-   "label": "Send Reminder Before (Days)"
-  },
-  {
-   "fieldname": "barcode_section",
-   "fieldtype": "Section Break",
-   "label": "Barcode Settings"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_barcode",
-   "fieldtype": "Check",
-   "label": "Enable Barcode Scanning"
-  },
-  {
-   "default": "LB",
-   "depends_on": "eval:doc.enable_barcode",
-   "description": "Prefix for auto-generated barcodes",
-   "fieldname": "barcode_prefix",
-   "fieldtype": "Data",
-   "label": "Barcode Prefix"
-  }
- ],
- "index_web_pages_for_search": 1,
- "issingle": 1,
- "links": [],
- "modified": "2025-12-16 15:00:00",
- "modified_by": "Administrator",
- "module": "Library",
- "name": "Library Settings",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "read": 1,
-   "role": "System Manager",
-   "write": 1
-  },
-  {
-   "read": 1,
-   "role": "Librarian"
-  }
- ],
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+    "actions": [],
+    "creation": "2025-12-16 15:00:00",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "circulation_section",
+        "default_loan_period",
+        "max_renewals",
+        "column_break_1",
+        "reservation_expiry_days",
+        "advance_reservation_days",
+        "member_sync_section",
+        "auto_create_members_from_students",
+        "student_membership_type",
+        "column_break_sync",
+        "auto_create_members_from_employees",
+        "employee_membership_type",
+        "sync_members_section",
+        "sync_members_button",
+        "fine_section",
+        "enable_fines",
+        "default_fine_per_day",
+        "column_break_2",
+        "lost_book_fine_multiplier",
+        "damage_fine_amount",
+        "notification_section",
+        "send_overdue_reminders",
+        "overdue_reminder_days",
+        "column_break_3",
+        "send_due_date_reminders",
+        "due_date_reminder_days",
+        "barcode_section",
+        "enable_barcode",
+        "barcode_prefix"
+    ],
+    "fields": [
+        {
+            "fieldname": "circulation_section",
+            "fieldtype": "Section Break",
+            "label": "Circulation Settings"
+        },
+        {
+            "default": "14",
+            "description": "Default number of days for book loans",
+            "fieldname": "default_loan_period",
+            "fieldtype": "Int",
+            "label": "Default Loan Period (Days)"
+        },
+        {
+            "default": "3",
+            "description": "Maximum times a book can be renewed",
+            "fieldname": "max_renewals",
+            "fieldtype": "Int",
+            "label": "Maximum Renewals"
+        },
+        {
+            "fieldname": "column_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "3",
+            "description": "Days to hold a reserved book before expiring",
+            "fieldname": "reservation_expiry_days",
+            "fieldtype": "Int",
+            "label": "Reservation Expiry (Days)"
+        },
+        {
+            "default": "30",
+            "description": "Maximum days in advance a book can be reserved",
+            "fieldname": "advance_reservation_days",
+            "fieldtype": "Int",
+            "label": "Advance Reservation Days"
+        },
+        {
+            "fieldname": "member_sync_section",
+            "fieldtype": "Section Break",
+            "label": "Auto Create Library Members"
+        },
+        {
+            "default": "0",
+            "fieldname": "auto_create_members_from_students",
+            "fieldtype": "Check",
+            "label": "Auto Create Members from Students",
+            "description": "Automatically create library members when new students are added"
+        },
+        {
+            "fieldname": "student_membership_type",
+            "fieldtype": "Link",
+            "options": "Library Membership Type",
+            "label": "Student Membership Type",
+            "depends_on": "eval:doc.auto_create_members_from_students",
+            "description": "Default membership type for students"
+        },
+        {
+            "fieldname": "column_break_sync",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "0",
+            "fieldname": "auto_create_members_from_employees",
+            "fieldtype": "Check",
+            "label": "Auto Create Members from Employees",
+            "description": "Automatically create library members when new employees are added"
+        },
+        {
+            "fieldname": "employee_membership_type",
+            "fieldtype": "Link",
+            "options": "Library Membership Type",
+            "label": "Employee Membership Type",
+            "depends_on": "eval:doc.auto_create_members_from_employees",
+            "description": "Default membership type for employees"
+        },
+        {
+            "fieldname": "sync_members_section",
+            "fieldtype": "Section Break",
+            "label": "Sync Existing Records"
+        },
+        {
+            "fieldname": "sync_members_button",
+            "fieldtype": "Button",
+            "label": "Sync Students & Employees to Library Members",
+            "description": "Click to import all existing students and employees as library members"
+        },
+        {
+            "fieldname": "fine_section",
+            "fieldtype": "Section Break",
+            "label": "Fine Settings"
+        },
+        {
+            "default": "1",
+            "fieldname": "enable_fines",
+            "fieldtype": "Check",
+            "label": "Enable Fines"
+        },
+        {
+            "default": "5.00",
+            "description": "Default fine amount for overdue books per day",
+            "fieldname": "default_fine_per_day",
+            "fieldtype": "Currency",
+            "label": "Default Fine Per Day"
+        },
+        {
+            "fieldname": "column_break_2",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "2.0",
+            "description": "Multiply book cost by this for lost books (e.g., 2x book cost)",
+            "fieldname": "lost_book_fine_multiplier",
+            "fieldtype": "Float",
+            "label": "Lost Book Fine Multiplier"
+        },
+        {
+            "default": "50.00",
+            "fieldname": "damage_fine_amount",
+            "fieldtype": "Currency",
+            "label": "Damage Fine Amount"
+        },
+        {
+            "fieldname": "notification_section",
+            "fieldtype": "Section Break",
+            "label": "Notification Settings"
+        },
+        {
+            "default": "1",
+            "fieldname": "send_overdue_reminders",
+            "fieldtype": "Check",
+            "label": "Send Overdue Reminders"
+        },
+        {
+            "default": "1",
+            "depends_on": "eval:doc.send_overdue_reminders",
+            "description": "Send reminder after how many days overdue",
+            "fieldname": "overdue_reminder_days",
+            "fieldtype": "Int",
+            "label": "Send Reminder After (Days)"
+        },
+        {
+            "fieldname": "column_break_3",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "1",
+            "fieldname": "send_due_date_reminders",
+            "fieldtype": "Check",
+            "label": "Send Due Date Reminders"
+        },
+        {
+            "default": "2",
+            "depends_on": "eval:doc.send_due_date_reminders",
+            "description": "Send reminder before how many days of due date",
+            "fieldname": "due_date_reminder_days",
+            "fieldtype": "Int",
+            "label": "Send Reminder Before (Days)"
+        },
+        {
+            "fieldname": "barcode_section",
+            "fieldtype": "Section Break",
+            "label": "Barcode Settings"
+        },
+        {
+            "default": "0",
+            "fieldname": "enable_barcode",
+            "fieldtype": "Check",
+            "label": "Enable Barcode Scanning"
+        },
+        {
+            "default": "LB",
+            "depends_on": "eval:doc.enable_barcode",
+            "description": "Prefix for auto-generated barcodes",
+            "fieldname": "barcode_prefix",
+            "fieldtype": "Data",
+            "label": "Barcode Prefix"
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "issingle": 1,
+    "links": [],
+    "modified": "2025-12-16 15:00:00",
+    "modified_by": "Administrator",
+    "module": "Library",
+    "name": "Library Settings",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "read": 1,
+            "role": "System Manager",
+            "write": 1
+        },
+        {
+            "read": 1,
+            "role": "Librarian"
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": [],
+    "track_changes": 1
 }
