@@ -27,6 +27,7 @@ def auto_create_library_member_from_student(doc, method):
 			"full_name": doc.student_name,
 			"email": doc.student_email_id,
 			"phone": doc.student_mobile_number,
+			"member_id": doc.name,
 			"membership_type": settings.student_membership_type or get_default_membership_type(),
 			"reference_doctype": "Student",
 			"student": doc.name
@@ -60,6 +61,7 @@ def auto_create_library_member_from_employee(doc, method):
 			"full_name": doc.employee_name,
 			"email": doc.personal_email,
 			"phone": doc.cell_number,
+			"member_id": doc.name,
 			"membership_type": settings.employee_membership_type or get_default_membership_type(),
 			"reference_doctype": "Employee",
 			"employee": doc.name

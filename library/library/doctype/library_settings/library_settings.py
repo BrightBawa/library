@@ -41,6 +41,7 @@ def sync_students_and_employees():
 						"full_name": student.student_name,
 						"email": student.student_email_id,
 						"phone": student.student_mobile_number,
+						"member_id": student.name,
 						"membership_type": settings.student_membership_type or get_default_membership_type(),
 						"reference_doctype": "Student",
 						"student": student.name
@@ -74,6 +75,7 @@ def sync_students_and_employees():
 						"full_name": employee.employee_name,
 						"email": employee.personal_email,
 						"phone": employee.cell_number,
+						"member_id": employee.name,
 						"membership_type": settings.employee_membership_type or get_default_membership_type(),
 						"reference_doctype": "Employee",
 						"employee": employee.name
