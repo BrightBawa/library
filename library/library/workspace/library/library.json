@@ -1,47 +1,27 @@
 {
  "charts": [],
- "content": "[{\"id\":\"header_quick_actions\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcda Quick Actions</b></span>\",\"col\":12}},{\"id\":\"shortcut_new_book\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Library Book\",\"col\":3}},{\"id\":\"shortcut_new_member\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Library Member\",\"col\":3}},{\"id\":\"shortcut_issue\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Issue Book\",\"col\":3}},{\"id\":\"shortcut_return\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Return Book\",\"col\":3}},{\"id\":\"shortcut_reserve\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Reservations\",\"col\":3}},{\"id\":\"shortcut_dash\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Library Dashboard\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"header_books\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcd6 Books &amp; Inventory</b></span>\",\"col\":12}},{\"id\":\"spacer_2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"header_members\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udc65 Members &amp; Activity</b></span>\",\"col\":12}},{\"id\":\"spacer_3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"header_analytics\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcca Analytics &amp; Trends</b></span>\",\"col\":12}},{\"id\":\"spacer_5\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"header_mgmt\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u2699\ufe0f Management Links</b></span>\",\"col\":12}}]",
- "creation": "2025-12-17 06:29:54.550386",
+ "content": "[]",
+ "creation": "2025-12-17 10:52:52.951351",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "",
+ "icon": "library",
  "idx": 0,
- "indicator_color": "",
+ "indicator_color": "green",
  "is_hidden": 0,
  "label": "Library",
  "links": [
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Library Book",
+   "label": "Circulation",
    "link_count": 0,
-   "link_to": "Library Book",
-   "link_type": "DocType",
+   "link_to": "",
+   "link_type": "",
    "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Library Category",
-   "link_count": 0,
-   "link_to": "Library Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Library Book Copy",
-   "link_count": 0,
-   "link_to": "Library Book Copy",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
+   "type": "Card Break"
   },
   {
    "hidden": 0,
@@ -49,16 +29,6 @@
    "label": "Library Circulation",
    "link_count": 0,
    "link_to": "Library Circulation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Library Member",
-   "link_count": 0,
-   "link_to": "Library Member",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -86,9 +56,59 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Library Settings",
+   "label": "Books & Inventory",
    "link_count": 0,
-   "link_to": "Library Settings",
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Book",
+   "link_count": 0,
+   "link_to": "Library Book",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Book Copy",
+   "link_count": 0,
+   "link_to": "Library Book Copy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Category",
+   "link_count": 0,
+   "link_to": "Library Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Members",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Member",
+   "link_count": 0,
+   "link_to": "Library Member",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -102,73 +122,126 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Settings",
+   "link_count": 0,
+   "link_to": "Library Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-12-17 10:25:32.793248",
+ "modified": "2025-12-17 10:52:52.951351",
  "modified_by": "Administrator",
  "module": "Library",
  "name": "Library",
  "number_cards": [],
  "owner": "Administrator",
- "parent_page": "",
  "public": 1,
  "quick_lists": [],
  "roles": [],
- "sequence_id": 12.0,
+ "sequence_id": 0.0,
  "shortcuts": [
   {
-   "color": "blue",
+   "color": "Green",
    "doc_view": "",
-   "format": "{} New",
-   "icon": "book",
-   "label": "New Library Book",
-   "link_to": "Library Book",
-   "type": "DocType"
+   "icon": "bar-chart",
+   "label": "Library Statistics",
+   "link_to": "Library Dashboard",
+   "type": "Dashboard"
   },
   {
-   "color": "green",
+   "color": "Blue",
    "doc_view": "",
-   "format": "{} New",
-   "icon": "user",
-   "label": "New Library Member",
-   "link_to": "Library Member",
-   "type": "DocType"
-  },
-  {
-   "color": "green",
-   "doc_view": "",
-   "format": "{} New",
-   "icon": "book",
+   "icon": "book-open",
    "label": "Issue Book",
    "link_to": "Library Circulation",
    "type": "DocType"
   },
   {
-   "color": "blue",
+   "color": "Orange",
    "doc_view": "",
-   "format": "{} Issued",
-   "icon": "return",
+   "icon": "corner-down-left",
    "label": "Return Book",
    "link_to": "Library Circulation",
-   "stats_filter": "{\"transaction_type\": \"Issue\"}",
    "type": "DocType"
   },
   {
-   "color": "orange",
+   "color": "Blue",
    "doc_view": "",
-   "format": "{} Active",
-   "icon": "calendar",
+   "icon": "book",
+   "label": "Books",
+   "link_to": "Library Book",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "",
+   "icon": "copy",
+   "label": "Book Copies",
+   "link_to": "Library Book Copy",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "",
+   "icon": "users",
+   "label": "Members",
+   "link_to": "Library Member",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "icon": "user-check",
+   "label": "Membership Types",
+   "link_to": "Library Membership Type",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "",
+   "icon": "tag",
+   "label": "Categories",
+   "link_to": "Library Category",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "",
+   "icon": "dollar-sign",
+   "label": "Fines",
+   "link_to": "Library Fine",
+   "type": "DocType"
+  },
+  {
+   "color": "Pink",
+   "doc_view": "",
+   "icon": "bookmark",
    "label": "Reservations",
    "link_to": "Library Reservation",
    "type": "DocType"
   },
   {
-   "color": "purple",
+   "color": "Grey",
    "doc_view": "",
-   "icon": "dashboard",
-   "label": "Library Dashboard",
-   "link_to": "Library Dashboard",
-   "type": "Dashboard"
+   "icon": "settings",
+   "label": "Settings",
+   "link_to": "Library Settings",
+   "type": "DocType"
   }
  ],
  "title": "Library"
