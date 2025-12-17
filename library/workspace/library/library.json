@@ -193,7 +193,7 @@
             "aggregate_function_based_on": "",
             "color": "#e74c3c",
             "document_type": "Library Circulation",
-            "dynamic_filters_json": "[[\"Library Circulation\",\"due_date\",\"<\",\"Today\",true]]",
+            "dynamic_filters_json": "[[\"Library Circulation\",\"due_date\",\"<\",\"Today\"]]",
             "filters_json": "[[\"Library Circulation\",\"docstatus\",\"=\",1,false],[\"Library Circulation\",\"return_date\",\"is\",\"not set\",false]]",
             "function": "Count",
             "idx": 4,
