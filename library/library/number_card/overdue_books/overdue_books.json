@@ -5,7 +5,6 @@
     "docstatus": 0,
     "doctype": "Number Card",
     "document_type": "Library Circulation",
-    "dynamic_filters_json": "[]",
     "filters_json": "[[\"Library Circulation\",\"docstatus\",\"=\",1,false],[\"Library Circulation\",\"return_date\",\"is\",\"not set\",false]]",
     "dynamic_filters_json": "[[\"Library Circulation\",\"due_date\",\"<\",\"Today\",false]]",
     "function": "Count",
