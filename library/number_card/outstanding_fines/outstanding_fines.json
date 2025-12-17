@@ -1,0 +1,22 @@
+{
+    "aggregate_function_based_on": "outstanding_amount",
+    "color": "#e67e22",
+    "creation": "2025-12-16 10:00:00.000000",
+    "docstatus": 0,
+    "doctype": "Number Card",
+    "document_type": "Library Fine",
+    "dynamic_filters_json": "[]",
+    "filters_json": "[[\"Library Fine\",\"payment_status\",\"in\",[\"Unpaid\",\"Partially Paid\"],false]]",
+    "function": "Sum",
+    "idx": 0,
+    "is_public": 1,
+    "is_standard": 1,
+    "label": "Outstanding Fines",
+    "modified": "2025-12-16 10:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Library",
+    "name": "Outstanding Fines",
+    "owner": "Administrator",
+    "show_percentage_stats": 0,
+    "stats_time_interval": "Weekly"
+}

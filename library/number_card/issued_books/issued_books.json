@@ -1,0 +1,22 @@
+{
+    "aggregate_function_based_on": "",
+    "color": "#f39c12",
+    "creation": "2025-12-16 10:00:00.000000",
+    "docstatus": 0,
+    "doctype": "Number Card",
+    "document_type": "Library Circulation",
+    "dynamic_filters_json": "[]",
+    "filters_json": "[[\"Library Circulation\",\"docstatus\",\"=\",1,false],[\"Library Circulation\",\"return_date\",\"is\",\"not set\",false]]",
+    "function": "Count",
+    "idx": 0,
+    "is_public": 1,
+    "is_standard": 1,
+    "label": "Issued Books",
+    "modified": "2025-12-16 10:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Library",
+    "name": "Issued Books",
+    "owner": "Administrator",
+    "show_percentage_stats": 1,
+    "stats_time_interval": "Daily"
+}

@@ -1,0 +1,178 @@
+{
+ "actions": [],
+ "creation": "2025-12-16 18:49:25",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reservation_section",
+  "member",
+  "member_name",
+  "column_break_1",
+  "book",
+  "book_title",
+  "dates_section",
+  "reservation_date",
+  "expected_date",
+  "column_break_2",
+  "expiry_date",
+  "notified_date",
+  "status_section",
+  "status",
+  "priority",
+  "column_break_3",
+  "fulfilled_date",
+  "circulation",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "reservation_section",
+   "fieldtype": "Section Break",
+   "label": "Reservation Details"
+  },
+  {
+   "fieldname": "member",
+   "fieldtype": "Link",
+   "label": "Library Member",
+   "options": "Library Member",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "member_name",
+   "fieldtype": "Data",
+   "label": "Member Name",
+   "fetch_from": "member.full_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "book",
+   "fieldtype": "Link",
+   "label": "Book",
+   "options": "Library Book",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "book_title",
+   "fieldtype": "Data",
+   "label": "Book Title",
+   "fetch_from": "book.book_title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dates_section",
+   "fieldtype": "Section Break",
+   "label": "Dates"
+  },
+  {
+   "fieldname": "reservation_date",
+   "fieldtype": "Date",
+   "label": "Reservation Date",
+   "default": "Today",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expected_date",
+   "fieldtype": "Date",
+   "label": "Expected Available Date"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "notified_date",
+   "fieldtype": "Date",
+   "label": "Notified Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nFulfilled\nExpired\nCancelled",
+   "default": "Active",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Queue Priority",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fulfilled_date",
+   "fieldtype": "Date",
+   "label": "Fulfilled Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "circulation",
+   "fieldtype": "Link",
+   "label": "Circulation Reference",
+   "options": "Library Circulation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-16 18:49:25",
+ "modified_by": "Administrator",
+ "module": "Library",
+ "name": "Library Reservation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Librarian",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Library Member",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "if_owner": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:LR-{#####}",
+ "naming_rule": "Expression"
+}

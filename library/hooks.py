@@ -5,6 +5,26 @@ app_description = "Library Management Application"
 app_email = "brightbawa11@gmail.com"
 app_license = "mit"
 
+# Required apps
+required_apps = ["frappe"]
+
+# Installation
+after_install = "library.install.setup_library_workspace"
+
+# Document Events
+doc_events = {
+    "Workspace": {
+        "before_save": "library.workspace_hooks.workspace_before_save"
+    }
+}
+
+# Fixtures
+fixtures = [
+    {"dt": "Dashboard", "filters": [["module", "=", "Library"]]},
+    {"dt": "Dashboard Chart", "filters": [["module", "=", "Library"]]},
+    {"dt": "Number Card", "filters": [["module", "=", "Library"]]},
+]
+
 # Apps
 # ------------------
 

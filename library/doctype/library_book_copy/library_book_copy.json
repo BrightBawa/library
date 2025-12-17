@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "creation": "2025-12-16 18:49:25",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "book",
+  "book_title",
+  "section_break_1",
+  "copy_number",
+  "barcode",
+  "column_break_1",
+  "status",
+  "condition",
+  "location_section",
+  "shelf_location",
+  "column_break_2",
+  "section",
+  "acquisition_section",
+  "acquisition_date",
+  "cost",
+  "column_break_3",
+  "vendor",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "book",
+   "fieldtype": "Link",
+   "label": "Book",
+   "options": "Library Book",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "book_title",
+   "fieldtype": "Data",
+   "label": "Book Title",
+   "fetch_from": "book.book_title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "copy_number",
+   "fieldtype": "Data",
+   "label": "Copy Number",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "barcode",
+   "fieldtype": "Data",
+   "label": "Barcode",
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Available\nIssued\nReserved\nMaintenance\nLost\nDamaged",
+   "default": "Available",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Select",
+   "label": "Condition",
+   "options": "New\nGood\nFair\nPoor\nDamaged",
+   "default": "Good"
+  },
+  {
+   "fieldname": "location_section",
+   "fieldtype": "Section Break",
+   "label": "Location"
+  },
+  {
+   "fieldname": "shelf_location",
+   "fieldtype": "Data",
+   "label": "Shelf Location"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Data",
+   "label": "Section"
+  },
+  {
+   "fieldname": "acquisition_section",
+   "fieldtype": "Section Break",
+   "label": "Acquisition"
+  },
+  {
+   "fieldname": "acquisition_date",
+   "fieldtype": "Date",
+   "label": "Acquisition Date",
+   "default": "Today"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vendor",
+   "fieldtype": "Data",
+   "label": "Vendor"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-16 18:49:25",
+ "modified_by": "Administrator",
+ "module": "Library",
+ "name": "Library Book Copy",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Librarian",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:{book}-.####",
+ "naming_rule": "Expression"
+}

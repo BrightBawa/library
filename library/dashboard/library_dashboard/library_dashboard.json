@@ -1,0 +1,54 @@
+{
+    "cards": [
+        {
+            "card": "Total Books"
+        },
+        {
+            "card": "Available Books"
+        },
+        {
+            "card": "Issued Books"
+        },
+        {
+            "card": "Overdue Books"
+        },
+        {
+            "card": "Active Members"
+        },
+        {
+            "card": "Total Members"
+        },
+        {
+            "card": "Outstanding Fines"
+        },
+        {
+            "card": "Active Reservations"
+        }
+    ],
+    "charts": [
+        {
+            "chart": "Circulation Trend"
+        },
+        {
+            "chart": "Category Distribution"
+        },
+        {
+            "chart": "Member Activity"
+        },
+        {
+            "chart": "Fine Collection"
+        }
+    ],
+    "creation": "2025-12-16 10:00:00.000000",
+    "dashboard_name": "Library Dashboard",
+    "docstatus": 0,
+    "doctype": "Dashboard",
+    "idx": 0,
+    "is_default": 1,
+    "is_standard": 1,
+    "modified": "2025-12-16 10:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Library",
+    "name": "Library Dashboard",
+    "owner": "Administrator"
+}
