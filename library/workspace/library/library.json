@@ -194,7 +194,7 @@
             "color": "#e74c3c",
             "document_type": "Library Circulation",
             "dynamic_filters_json": "[]",
-            "filters_json": "[[\"Library Circulation\",\"docstatus\",\"=\",1,false],[\"Library Circulation\",\"return_date\",\"is\",\"not set\",false],[\"Library Circulation\",\"due_date\",\"<\",\"eval:frappe.utils.today()\",false]]",
+            "filters_json": "[[\"Library Circulation\",\"docstatus\",\"=\",1,false],[\"Library Circulation\",\"return_date\",\"is\",\"not set\",false]]",
             "function": "Count",
             "idx": 4,
             "is_public": 1,
