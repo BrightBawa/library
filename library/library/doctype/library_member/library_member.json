@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "format:{LM}-{#####}",
  "creation": "2025-12-16 18:49:25",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -37,9 +38,9 @@
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Full Name",
-   "reqd": 1,
-   "in_list_view": 1
+   "reqd": 1
   },
   {
    "fieldname": "email",
@@ -59,10 +60,10 @@
   {
    "fieldname": "membership_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Membership Type",
    "options": "Library Membership Type",
-   "reqd": 1,
-   "in_list_view": 1
+   "reqd": 1
   },
   {
    "fieldname": "member_id",
@@ -87,18 +88,18 @@
    "options": "\nStudent\nEmployee\nOther"
   },
   {
+   "depends_on": "eval:doc.reference_doctype=='Student'",
    "fieldname": "student",
    "fieldtype": "Link",
    "label": "Student",
-   "options": "Student",
-   "depends_on": "eval:doc.reference_doctype=='Student'"
+   "options": "Student"
   },
   {
+   "depends_on": "eval:doc.reference_doctype=='Employee'",
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
-   "options": "Employee",
-   "depends_on": "eval:doc.reference_doctype=='Employee'"
+   "options": "Employee"
   },
   {
    "fieldname": "membership_section",
@@ -106,10 +107,10 @@
    "label": "Membership"
   },
   {
+   "default": "Today",
    "fieldname": "membership_start_date",
    "fieldtype": "Date",
-   "label": "Membership Start Date",
-   "default": "Today"
+   "label": "Membership Start Date"
   },
   {
    "fieldname": "membership_end_date",
@@ -121,19 +122,19 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Active",
    "fieldname": "membership_status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Membership Status",
-   "options": "Active\nExpired\nSuspended\nCancelled",
-   "default": "Active",
-   "in_list_view": 1
+   "options": "Active\nExpired\nSuspended\nCancelled"
   },
   {
+   "default": "0.00",
    "fieldname": "outstanding_balance",
    "fieldtype": "Currency",
    "label": "Outstanding Balance",
-   "read_only": 1,
-   "default": "0.00"
+   "read_only": 1
   },
   {
    "fieldname": "stats_section",
@@ -141,66 +142,66 @@
    "label": "Statistics"
   },
   {
+   "default": "0",
    "fieldname": "books_issued",
    "fieldtype": "Int",
    "label": "Books Currently Issued",
-   "read_only": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "total_books_borrowed",
    "fieldtype": "Int",
    "label": "Total Books Borrowed",
-   "read_only": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "overdue_books",
    "fieldtype": "Int",
    "label": "Overdue Books",
-   "read_only": 1,
-   "default": "0"
+   "read_only": 1
   }
  ],
+ "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-16 18:49:25",
+ "modified": "2025-12-17 15:40:25.150437",
  "modified_by": "Administrator",
  "module": "Library",
  "name": "Library Member",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
    "role": "System Manager",
-   "read": 1,
-   "write": 1,
-   "create": 1,
-   "delete": 1
+   "write": 1
   },
   {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
    "role": "Librarian",
-   "read": 1,
-   "write": 1,
-   "create": 1,
-   "delete": 1
+   "write": 1
   },
   {
-   "role": "Library Member",
+   "if_owner": 1,
    "read": 1,
-   "if_owner": 1
+   "role": "Library Member"
   }
  ],
+ "row_format": "Dynamic",
+ "search_fields": "full_name,email,member_id",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 1,
- "autoname": "format:LM-{#####}",
- "naming_rule": "Expression",
  "title_field": "full_name",
- "image_field": "image",
- "search_fields": "full_name,email,member_id"
+ "track_changes": 1
 }

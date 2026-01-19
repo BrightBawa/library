@@ -1,0 +1,93 @@
+[
+ {
+  "cards": [
+   {
+    "card": "Total Books",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Available Books",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Issued Books",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Overdue Books",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Active Members",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Total Members",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Outstanding Fines",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Active Reservations",
+    "parent": "Library Dashboard",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Circulation Trend",
+    "parent": "Library Dashboard",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": null
+   },
+   {
+    "chart": "Category Distribution",
+    "parent": "Library Dashboard",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": null
+   },
+   {
+    "chart": "Member Activity",
+    "parent": "Library Dashboard",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": null
+   },
+   {
+    "chart": "Fine Collection",
+    "parent": "Library Dashboard",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": null
+   }
+  ],
+  "dashboard_name": "Library Dashboard",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 1,
+  "is_standard": 1,
+  "modified": "2025-12-16 10:00:00",
+  "module": "Library",
+  "name": "Library Dashboard"
+ }
+]
