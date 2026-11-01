@@ -24,12 +24,10 @@ doc_events = {
     }
 }
 
-# Fixtures
-fixtures = [
-    {"dt": "Dashboard", "filters": [["module", "=", "Library"]]},
-    {"dt": "Dashboard Chart", "filters": [["module", "=", "Library"]]},
-    {"dt": "Number Card", "filters": [["module", "=", "Library"]]},
-]
+# Library dashboards, charts, and number cards are standard module records under
+# library/library/* and are synchronized by migrate. Importing them again as
+# fixtures attempts to edit protected standard records.
+fixtures = []
 
 # Apps
 # ------------------
@@ -267,4 +265,3 @@ fixtures = [
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-

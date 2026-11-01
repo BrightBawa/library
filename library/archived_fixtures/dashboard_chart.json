@@ -39,9 +39,6 @@
   "y_axis": [
    {
     "color": null,
-    "parent": "Fine Collection",
-    "parentfield": "y_axis",
-    "parenttype": "Dashboard Chart",
     "y_field": "fine_amount"
    }
   ]
