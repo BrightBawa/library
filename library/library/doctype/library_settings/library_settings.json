@@ -32,7 +32,19 @@
         "due_date_reminder_days",
         "barcode_section",
         "enable_barcode",
-        "barcode_prefix"
+        "barcode_prefix",
+        "stock_section",
+        "company",
+        "library_warehouse",
+        "stores_warehouse",
+        "column_break_stock",
+        "library_item_group",
+        "selling_price_list",
+        "accounts_section",
+        "default_income_account",
+        "issue_expense_account",
+        "column_break_accounts",
+        "default_cost_center"
     ],
     "fields": [
         {
@@ -212,12 +224,82 @@
             "fieldname": "barcode_prefix",
             "fieldtype": "Data",
             "label": "Barcode Prefix"
+        },
+        {
+            "fieldname": "stock_section",
+            "fieldtype": "Section Break",
+            "label": "Stock"
+        },
+        {
+            "fieldname": "company",
+            "fieldtype": "Link",
+            "label": "Company",
+            "options": "Company"
+        },
+        {
+            "fieldname": "library_warehouse",
+            "fieldtype": "Link",
+            "label": "Library Warehouse",
+            "options": "Warehouse",
+            "description": "Issue-type books are stocked and issued from here."
+        },
+        {
+            "fieldname": "stores_warehouse",
+            "fieldtype": "Link",
+            "label": "Stores Warehouse",
+            "options": "Warehouse",
+            "description": "Stock requests ask for transfers from this warehouse."
+        },
+        {
+            "fieldname": "column_break_stock",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "library_item_group",
+            "fieldtype": "Link",
+            "label": "Library Item Group",
+            "options": "Item Group",
+            "description": "Items created for Issue-type books go in this group."
+        },
+        {
+            "fieldname": "selling_price_list",
+            "fieldtype": "Link",
+            "label": "Selling Price List",
+            "options": "Price List"
+        },
+        {
+            "fieldname": "accounts_section",
+            "fieldtype": "Section Break",
+            "label": "Billing Accounts"
+        },
+        {
+            "fieldname": "default_income_account",
+            "fieldtype": "Link",
+            "label": "Income Account for Issued Books",
+            "options": "Account"
+        },
+        {
+            "fieldname": "issue_expense_account",
+            "fieldtype": "Link",
+            "label": "Cost of Issued Books Account",
+            "options": "Account",
+            "description": "Cost of books leaving the library warehouse, billed or free."
+        },
+        {
+            "fieldname": "column_break_accounts",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "default_cost_center",
+            "fieldtype": "Link",
+            "label": "Cost Center",
+            "options": "Cost Center"
         }
     ],
     "index_web_pages_for_search": 1,
     "issingle": 1,
     "links": [],
-    "modified": "2025-12-16 15:00:00",
+    "modified": "2026-11-10 13:00:00.000000",
     "modified_by": "Administrator",
     "module": "Library",
     "name": "Library Settings",

@@ -81,3 +81,59 @@ def circulate(transaction_type, member, copy, submit=True, **values):
 
 def days_ago(days):
 	return add_days(today(), -days)
+
+
+def company():
+	return frappe.db.get_single_value("Global Defaults", "default_company")
+
+
+def make_warehouse(name="_Test Library"):
+	abbr = frappe.db.get_value("Company", company(), "abbr")
+	full = f"{name} - {abbr}"
+	if not frappe.db.exists("Warehouse", full):
+		root = frappe.db.get_value("Warehouse", {"company": company(), "is_group": 1, "parent_warehouse": ["is", "not set"]})
+		frappe.get_doc({"doctype": "Warehouse", "warehouse_name": name, "company": company(),
+			"parent_warehouse": root}).insert()
+	return full
+
+
+def make_item_group(name="_Test Library Books"):
+	if not frappe.db.exists("Item Group", name):
+		frappe.get_doc({"doctype": "Item Group", "item_group_name": name, "parent_item_group": "All Item Groups"}).insert()
+	return name
+
+
+def account(root_type, account_type=None):
+	filters = {"company": company(), "root_type": root_type, "is_group": 0, "disabled": 0}
+	if account_type:
+		filters["account_type"] = account_type
+	return frappe.db.get_value("Account", filters, "name", order_by="name")
+
+
+def set_stock_settings(**overrides):
+	"""Library Settings pointing at test-only warehouses and group, with real company accounts."""
+	values = {
+		"company": company(),
+		"library_warehouse": make_warehouse("_Test Library"),
+		"stores_warehouse": make_warehouse("_Test Stores"),
+		"library_item_group": make_item_group(),
+		"selling_price_list": frappe.db.get_value("Price List", {"selling": 1, "enabled": 1}),
+		"default_income_account": account("Income", "Income Account"),
+		"issue_expense_account": account("Expense", "Expense Account"),
+		"default_cost_center": frappe.db.get_value("Cost Center", {"company": company(), "is_group": 0}),
+	}
+	values.update(overrides)
+	set_settings(**values)
+	return frappe._dict(values)
+
+
+def receive_stock(item, qty, warehouse, rate=50):
+	"""Material Receipt into a warehouse (rolled back with the test)."""
+	entry = frappe.get_doc({
+		"doctype": "Stock Entry", "stock_entry_type": "Material Receipt", "purpose": "Material Receipt",
+		"company": company(),
+		"items": [{"item_code": item, "qty": qty, "t_warehouse": warehouse, "basic_rate": rate,
+			"conversion_factor": 1}],
+	}).insert()
+	entry.submit()
+	return entry

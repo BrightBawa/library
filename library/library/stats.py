@@ -11,16 +11,24 @@ from frappe.utils import flt, today
 OPEN_LOAN = {"docstatus": 1, "transaction_type": "Issue", "return_date": ["is", "not set"]}
 
 
-def update_book_stats(book):
-	"""total_copies (every copy not Lost), available_copies and book_status."""
-	if not book or not frappe.db.exists("Library Book", book):
-		return
+def book_stats(book, book_type="Lending", item=None):
+	"""total_copies, available_copies and book_status of a book.
+
+	Lending: from its copies (every copy not Lost counts in the total). Issue: the
+	quantity in the library warehouse.
+	"""
+	if book_type == "Issue":
+		from library.library.stock import warehouse_qty
+
+		qty = int(warehouse_qty(item))
+		return {"total_copies": qty, "available_copies": qty,
+			"book_status": "Available" if qty > 0 else "Out of Stock"}
 	by_status = dict(
 		frappe.db.sql(
 			"select status, count(*) from `tabLibrary Book Copy` where book = %s group by status",
 			book,
 		)
-	)
+	) if book else {}
 	total = sum(count for status, count in by_status.items() if status != "Lost")
 	available = by_status.get("Available", 0)
 	if not total:
@@ -29,12 +37,17 @@ def update_book_stats(book):
 		book_status = "Available"
 	else:
 		book_status = "All Issued"
-	frappe.db.set_value(
-		"Library Book",
-		book,
-		{"total_copies": total, "available_copies": available, "book_status": book_status},
-		update_modified=False,
-	)
+	return {"total_copies": total, "available_copies": available, "book_status": book_status}
+
+
+def update_book_stats(book):
+	if not book:
+		return
+	values = frappe.db.get_value("Library Book", book, ["book_type", "item"], as_dict=True)
+	if not values:
+		return
+	frappe.db.set_value("Library Book", book, book_stats(book, values.book_type, values.item),
+		update_modified=False)
 
 
 def update_member_stats(member):

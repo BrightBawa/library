@@ -21,6 +21,14 @@ doc_events = {
         "after_insert": "library.library.utils.auto_create_library_member_from_employee",
         "on_update": "library.library.utils.sync_library_member_status",
     },
+    # Issue-type books show the library warehouse balance: refresh it when stock moves.
+    **{
+        doctype: {
+            "on_submit": "library.library.stock.refresh_books_after_stock_change",
+            "on_cancel": "library.library.stock.refresh_books_after_stock_change",
+        }
+        for doctype in ("Stock Entry", "Stock Reconciliation", "Sales Invoice")
+    },
 }
 
 # Scheduled Tasks
@@ -29,6 +37,7 @@ scheduler_events = {
         "library.api.circulation.auto_calculate_fines",
         "library.api.circulation.send_overdue_reminders",
         "library.api.circulation.expire_unclaimed_reservations",
+        "library.library.stock.refresh_all_issue_books",
     ],
 }
 

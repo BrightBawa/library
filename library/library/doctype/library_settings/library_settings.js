@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Library Settings", {
+	setup(frm) {
+		const leaf = (extra = {}) => () => ({ filters: { company: frm.doc.company, is_group: 0, ...extra } });
+		frm.set_query("library_warehouse", leaf());
+		frm.set_query("stores_warehouse", leaf());
+		frm.set_query("default_cost_center", leaf());
+		frm.set_query("default_income_account", leaf({ root_type: "Income" }));
+		frm.set_query("issue_expense_account", leaf({ root_type: "Expense" }));
+		frm.set_query("selling_price_list", () => ({ filters: { selling: 1, enabled: 1 } }));
+	},
 	sync_members_button(frm) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Sync Library Members"),
