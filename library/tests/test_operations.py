@@ -68,7 +68,7 @@ class TestIssuanceReturn(IssuanceTestCase):
 		issuance = make_issuance(self.sm.member, [(self.billed.name, 1)])
 		frappe.set_user(make_user("library-test-librarian@example.com", "Librarian"))
 		draft = make_return(issuance, {self.billed.name: 1}, submit=False)
-		with self.assertRaisesRegex(frappe.PermissionError, "Library Manager"):
+		with self.assertRaises(frappe.PermissionError):  # Librarians have no submit right on returns at all
 			draft.submit()
 
 
@@ -124,6 +124,7 @@ class TestClassSetLoan(LibraryTestCase):
 		self.assertEqual((loan.status, loan.items[0].returned_qty), ("Partly Returned", 2))
 		with self.assertRaisesRegex(frappe.ValidationError, "cancelling"):
 			loan.cancel()
+		loan.reload()  # a refused cancel leaves the in-memory doc marked cancelled, as a form would reload
 		loan.mark_lost(row, qty=1)
 		loan.reload()
 		self.assertEqual((loan.status, loan.items[0].lost_qty), ("Closed", 1))
