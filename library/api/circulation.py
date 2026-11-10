@@ -114,10 +114,13 @@ def auto_calculate_fines():
 
 def expire_unclaimed_reservations():
 	"""Daily: expire reservations not collected by their expiry date; notify the next member."""
+	# "is set" matters: Frappe compares an empty date as the earliest date, so without it
+	# every reservation not yet notified (no expiry date) would be expired too.
 	expired = frappe.get_all(
 		"Library Reservation",
-		filters={"status": "Active", "expiry_date": ["<", today()]},
+		filters=[["status", "=", "Active"], ["expiry_date", "is", "set"], ["expiry_date", "<", today()]],
 		fields=["name", "book"],
+		order_by="expiry_date asc, creation asc",
 	)
 	for reservation in expired:
 		frappe.db.set_value("Library Reservation", reservation.name, "status", "Expired")

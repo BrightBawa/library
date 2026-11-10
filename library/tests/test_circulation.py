@@ -203,6 +203,17 @@ class TestCirculation(LibraryTestCase):
 			api.expire_unclaimed_reservations()
 		self.assertEqual(self.value("Library Reservation", expired.name, "status"), "Expired")
 		self.assertIn(["queued@example.com"], [c.kwargs["recipients"] for c in sendmail.call_args_list])
+		# A reservation never notified has no expiry date and must stay in the queue.
+		queued_reservation = frappe.get_value("Library Reservation", {"member": queued},
+			["status", "notified_date"], as_dict=True)
+		self.assertEqual(queued_reservation.status, "Active")
+		self.assertEqual(getdate(queued_reservation.notified_date), getdate(today()))
+
+	def test_copies_are_numbered_per_book(self):
+		second = make_copy(self.book).name
+		other_book = make_book("_Test Other Book").name
+		self.assertEqual((self.copy, second), (f"{self.book}-0001", f"{self.book}-0002"))
+		self.assertEqual(make_copy(other_book).name, f"{other_book}-0001")
 
 
 class TestFine(LibraryTestCase):
@@ -219,6 +230,9 @@ class TestFine(LibraryTestCase):
 		fine.payment_status = "Waived"
 		with self.assertRaisesRegex(frappe.ValidationError, "reason"):
 			fine.save()
+		# A failed save leaves its new timestamp on the in-memory doc, as a form would reload.
+		fine.reload()
+		fine.payment_status = "Waived"
 		fine.waiver_reason = "Hardship"
 		fine.save()
 		self.assertEqual((fine.outstanding_amount, fine.waived_by), (0, "Administrator"))
