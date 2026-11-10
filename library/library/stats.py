@@ -85,8 +85,8 @@ def set_fine_amounts(fine):
 	"""Derive outstanding_amount and payment_status on a Library Fine being saved."""
 	fine.fine_amount = flt(fine.fine_amount)
 	fine.paid_amount = flt(fine.paid_amount)
-	if fine.payment_status == "Waived":
-		fine.outstanding_amount = 0
+	if fine.payment_status in ("Waived", "Invoiced"):
+		fine.outstanding_amount = 0  # waived, or tracked on the student's invoice
 		return
 	fine.outstanding_amount = max(fine.fine_amount - fine.paid_amount, 0)
 	if fine.fine_amount and fine.paid_amount >= fine.fine_amount:

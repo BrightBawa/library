@@ -10,6 +10,11 @@ frappe.ui.form.on("Library Settings", {
 		frm.set_query("default_income_account", leaf({ root_type: "Income" }));
 		frm.set_query("issue_expense_account", leaf({ root_type: "Expense" }));
 		frm.set_query("selling_price_list", () => ({ filters: { selling: 1, enabled: 1 } }));
+		frm.set_query("rental_income_account", leaf({ root_type: "Income" }));
+		frm.set_query("fine_income_account", leaf({ root_type: "Income" }));
+		const service = () => ({ filters: { is_stock_item: 0, is_sales_item: 1, disabled: 0 } });
+		frm.set_query("rental_item", service);
+		frm.set_query("fine_item", service);
 	},
 	sync_members_button(frm) {
 		const dialog = new frappe.ui.Dialog({

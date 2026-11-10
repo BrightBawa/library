@@ -137,3 +137,41 @@ def receive_stock(item, qty, warehouse, rate=50):
 	}).insert()
 	entry.submit()
 	return entry
+
+
+def student_member():
+	"""A real enabled student with a Customer, and its Library Member (made in the test if missing)."""
+	from library.library import utils as member_utils
+
+	row = frappe.db.sql("""
+		select s.name, s.customer from tabStudent s join tabCustomer c on c.name = s.customer
+		where s.enabled = 1 and c.disabled = 0 order by s.name limit 1""", as_dict=True)[0]
+	member = member_utils.existing_member("Student", row.name) or member_utils.create_member(
+		"Student", frappe.get_doc("Student", row.name))
+	frappe.db.set_value("Library Member", member, "membership_status", "Active")
+	return frappe._dict(member=member, student=row.name, customer=row.customer)
+
+
+def make_service_item(name):
+	item = frappe.new_doc("Item")
+	if frappe.db.get_single_value("Stock Settings", "item_naming_by") == "Item Code":
+		item.item_code = name
+	item.update({"item_name": name, "item_group": make_item_group(), "stock_uom": "Nos",
+		"is_stock_item": 0, "is_sales_item": 1, "include_item_in_manufacturing": 0})
+	item.insert()
+	return item.name
+
+
+def make_issue_book(title, billable=False, rate=0, stock=0):
+	book = make_book(title, book_type="Issue", is_billable=1 if billable else 0, rate=rate)
+	if stock:
+		receive_stock(book.item, stock, frappe.db.get_single_value("Library Settings", "library_warehouse"))
+	return book
+
+
+def make_issuance(member, rows, submit=True, **values):
+	doc = frappe.get_doc({"doctype": "Library Book Issuance", "member": member,
+		"items": [{"book": book, "qty": qty} for book, qty in rows], **values}).insert()
+	if submit:
+		doc.submit()
+	return doc

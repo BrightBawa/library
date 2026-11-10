@@ -1,0 +1,32 @@
+[
+ {
+  "desk_access": 1,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Role",
+  "modified": "2026-11-10 13:00:00.000000",
+  "name": "Librarian",
+  "role_name": "Librarian",
+  "two_factor_auth": 0
+ },
+ {
+  "desk_access": 1,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Role",
+  "modified": "2026-11-10 13:00:00.000000",
+  "name": "Library Manager",
+  "role_name": "Library Manager",
+  "two_factor_auth": 0
+ },
+ {
+  "desk_access": 1,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Role",
+  "modified": "2026-11-10 13:00:00.000000",
+  "name": "Library Member",
+  "role_name": "Library Member",
+  "two_factor_auth": 0
+ }
+]

@@ -22,6 +22,8 @@ class LibrarySettings(Document):
 			("default_cost_center", "Cost Center", None),
 			("default_income_account", "Account", "Income"),
 			("issue_expense_account", "Account", "Expense"),
+			("rental_income_account", "Account", "Income"),
+			("fine_income_account", "Account", "Income"),
 		]
 		for fieldname, doctype, root_type in checks:
 			value = self.get(fieldname)
@@ -42,6 +44,10 @@ class LibrarySettings(Document):
 				frappe.throw(_("{0} must be an {1} account.").format(label, root_type))
 		if self.library_warehouse and self.library_warehouse == self.stores_warehouse:
 			frappe.throw(_("The library and stores warehouses must be different."))
+		for fieldname in ("rental_item", "fine_item"):
+			item = self.get(fieldname)
+			if item and frappe.db.get_value("Item", item, "is_stock_item"):
+				frappe.throw(_("{0} must be a non-stock item.").format(_(self.meta.get_label(fieldname))))
 
 
 @frappe.whitelist()

@@ -11,13 +11,16 @@ fine_amount) after it is submitted. ``library.api.circulation`` goes through her
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import add_days, cint, getdate, today
+from frappe.utils import add_days, cint, flt, getdate, today
 
-from library.library import fines, reservations
+from library.library import billing, fines, reservations
 from library.library.stats import OPEN_LOAN, update_book_stats, update_member_stats
 
 
 class LibraryCirculation(Document):
+	# A rental invoice is cancelled by on_cancel; do not ask the user to cancel it first.
+	ignore_linked_doctypes = ("Sales Invoice",)
+
 	def validate(self):
 		self.librarian = self.librarian or frappe.session.user
 		self.transaction_date = self.transaction_date or today()
@@ -64,6 +67,10 @@ class LibraryCirculation(Document):
 		self.return_date = None
 		self.days_overdue = 0
 		self.fine_amount = 0
+		if flt(self.rental_fee) < 0:
+			frappe.throw(_("The rental fee cannot be negative."))
+		if flt(self.rental_fee) and not billing.member_customer(self.member):
+			frappe.throw(_("Rental fees are billed to a student's Customer; {0} has none.").format(member.full_name))
 
 	def get_open_issue(self):
 		if not self.book_copy:
@@ -77,6 +84,7 @@ class LibraryCirculation(Document):
 				self.book_copy, issue.member_name or issue.member, self.member_name or self.member))
 		self.member = issue.member
 		self.member_name = issue.member_name
+		self.rental_fee = 0
 		self.against_issue = issue.name
 		self.issue_date = issue.issue_date
 		self.max_renewals_allowed = issue.max_renewals_allowed
@@ -114,6 +122,8 @@ class LibraryCirculation(Document):
 		if self.transaction_type == "Issue":
 			frappe.db.set_value("Library Book Copy", self.book_copy, "status", "Issued")
 			reservations.fulfil(self.member, self.get_book(), self.name)
+			if flt(self.rental_fee) > 0:
+				self.db_set("sales_invoice", billing.bill_rental(self))
 		elif self.transaction_type == "Return":
 			self.close_loan()
 		else:
@@ -135,12 +145,16 @@ class LibraryCirculation(Document):
 		if self.condition_on_return and self.condition_on_return != "Lost":
 			copy["condition"] = self.condition_on_return
 		frappe.db.set_value("Library Book Copy", self.book_copy, copy)
-		fines.condition_fine(self)
+		condition_fine = fines.condition_fine(self)
+		for final in (fine, condition_fine):  # both are final now
+			if final:
+				billing.bill_fine(final)
 		if copy["status"] == "Available":
 			reservations.notify_next(self.get_book())
 
 	def before_cancel(self):
 		if self.transaction_type == "Issue":
+			billing.assert_unpaid(self.sales_invoice)
 			later = frappe.db.get_value("Library Circulation",
 				{"against_issue": self.name, "docstatus": 1}, ["name", "transaction_type"], as_dict=True)
 			if later:
@@ -159,6 +173,7 @@ class LibraryCirculation(Document):
 
 	def on_cancel(self):
 		if self.transaction_type == "Issue":
+			billing.cancel_document("Sales Invoice", self.sales_invoice)
 			frappe.db.set_value("Library Book Copy", self.book_copy, "status", "Available")
 			fines.remove_unsettled_fines(self.name)
 			fulfilled = frappe.db.get_value("Library Reservation", {"circulation": self.name})

@@ -21,13 +21,16 @@ doc_events = {
         "after_insert": "library.library.utils.auto_create_library_member_from_employee",
         "on_update": "library.library.utils.sync_library_member_status",
     },
-    # Issue-type books show the library warehouse balance: refresh it when stock moves.
+    # Stock documents: only the library makes or cancels the ones linked to library records
+    # (guard), and Issue-type books show the library warehouse balance (refresh).
     **{
         doctype: {
+            "before_insert": "library.library.billing.guard_library_document",
+            "before_cancel": "library.library.billing.guard_library_document",
             "on_submit": "library.library.stock.refresh_books_after_stock_change",
             "on_cancel": "library.library.stock.refresh_books_after_stock_change",
         }
-        for doctype in ("Stock Entry", "Stock Reconciliation", "Sales Invoice")
+        for doctype in ("Sales Invoice", "Stock Entry", "Stock Reconciliation")
     },
 }
 
@@ -41,10 +44,27 @@ scheduler_events = {
     ],
 }
 
-# Library dashboards, charts, and number cards are standard module records under
-# library/library/* and are synchronized by migrate. Importing them again as
-# fixtures attempts to edit protected standard records.
-fixtures = []
+# Fixtures: the library's roles, its Role Profile, and the Custom Fields linking Sales
+# Invoice, Stock Entry and Stock Reconciliation to library records. Dashboards, charts,
+# number cards and the workspace are standard module records under library/library/*,
+# synchronized by migrate; importing them as fixtures would edit protected standard
+# records (see cd890a7).
+LIBRARY_CUSTOM_FIELDS = [
+    f"{dt}-{field}"
+    for dt, fields in (
+        ("Sales Invoice", ("library_section", "library_issuance", "library_document_type", "library_document")),
+        ("Stock Entry", ("library_section", "library_issuance", "library_document_type", "library_document")),
+        ("Stock Reconciliation", ("library_section", "library_document_type", "library_document")),
+    )
+    for field in fields
+]
+fixtures = [
+    {"dt": "Role", "filters": [["name", "in", ["Librarian", "Library Manager", "Library Member"]]]},
+    {"dt": "Role Profile", "filters": [["name", "in", ["Library Manager"]]]},
+    {"dt": "Custom Field", "filters": [["name", "in", LIBRARY_CUSTOM_FIELDS]]},
+    # A standard DocType cannot name its default print format itself.
+    {"dt": "Property Setter", "filters": [["name", "in", ["Library Book Issuance-main-default_print_format"]]]},
+]
 
 # Apps
 # ------------------

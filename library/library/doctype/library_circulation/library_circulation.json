@@ -43,6 +43,8 @@
         "fine_section",
         "fine_amount",
         "fine_paid",
+        "rental_fee",
+        "sales_invoice",
         "amended_from"
     ],
     "fields": [
@@ -295,6 +297,22 @@
             "label": "Fine Paid"
         },
         {
+            "fieldname": "rental_fee",
+            "fieldtype": "Currency",
+            "label": "Rental Fee",
+            "depends_on": "eval:doc.transaction_type=='Issue'",
+            "description": "Billed to the student's account when the Issue is submitted."
+        },
+        {
+            "fieldname": "sales_invoice",
+            "fieldtype": "Link",
+            "label": "Rental Invoice",
+            "options": "Sales Invoice",
+            "read_only": 1,
+            "no_copy": 1,
+            "depends_on": "eval:doc.sales_invoice"
+        },
+        {
             "fieldname": "amended_from",
             "fieldtype": "Link",
             "label": "Amended From",
@@ -304,7 +322,7 @@
     ],
     "index_web_pages_for_search": 1,
     "links": [],
-    "modified": "2026-11-10 12:30:00.000000",
+    "modified": "2026-11-10 13:00:00.000000",
     "modified_by": "Administrator",
     "module": "Library",
     "name": "Library Circulation",

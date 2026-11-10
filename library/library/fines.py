@@ -33,8 +33,8 @@ def sync_overdue_fine(issue, as_of=None):
 	name = frappe.db.get_value("Library Fine", {"circulation": issue.name, "fine_type": "Overdue"})
 	if name:
 		fine = frappe.get_doc("Library Fine", name)
-		if fine.payment_status in ("Paid", "Waived") or flt(fine.paid_amount):
-			return fine  # settled: never change what was paid or waived
+		if fine.payment_status in ("Paid", "Waived", "Invoiced") or flt(fine.paid_amount):
+			return fine  # settled: never change what was paid, waived or invoiced
 		if not amount:
 			frappe.delete_doc("Library Fine", name, ignore_permissions=True, force=True)
 			return None
@@ -85,7 +85,7 @@ def remove_unsettled_fines(circulation):
 	"""Delete the fines a cancelled document created, refusing if any was paid or waived."""
 	for fine in frappe.get_all("Library Fine", filters={"circulation": circulation},
 			fields=["name", "payment_status", "paid_amount"]):
-		if fine.payment_status in ("Paid", "Partially Paid", "Waived") or flt(fine.paid_amount):
+		if fine.payment_status in ("Paid", "Partially Paid", "Waived", "Invoiced") or flt(fine.paid_amount):
 			frappe.throw(_("Fine {0} is already {1}. Settle it before cancelling {2}.").format(
 				fine.name, fine.payment_status.lower(), circulation))
 		frappe.delete_doc("Library Fine", fine.name, ignore_permissions=True, force=True)

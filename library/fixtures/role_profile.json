@@ -1,0 +1,19 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "modified": "2026-11-10 13:00:00.000000",
+  "name": "Library Manager",
+  "role_profile": "Library Manager",
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "role": "Library Manager"
+   },
+   {
+    "doctype": "Has Role",
+    "role": "Librarian"
+   }
+  ]
+ }
+]

@@ -1,0 +1,184 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-11-10 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "student_group",
+  "student_batch",
+  "column_break_who",
+  "academic_year",
+  "posting_date",
+  "skip_already_issued",
+  "books_section",
+  "items",
+  "progress_section",
+  "status",
+  "total_students",
+  "column_break_progress",
+  "created_count",
+  "skipped_count",
+  "failed_count",
+  "results_section",
+  "results"
+ ],
+ "fields": [
+  {
+   "default": "LBULK-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "LBULK-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "description": "Every active student in this group, or leave empty and choose a class.",
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group"
+  },
+  {
+   "description": "Students in this class for the academic year (Student Groups, Program Enrollments).",
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "label": "Class / Batch",
+   "options": "Student Batch Name"
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "skip_already_issued",
+   "fieldtype": "Check",
+   "label": "Skip students already issued these billable books this year"
+  },
+  {
+   "fieldname": "books_section",
+   "fieldtype": "Section Break",
+   "label": "Books for each student"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Books",
+   "options": "Library Bulk Issue Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "progress_section",
+   "fieldtype": "Section Break",
+   "label": "Progress"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nQueued\nRunning\nCompleted\nCompleted with Errors",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_students",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Students",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_progress",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Issued",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "skipped_count",
+   "fieldtype": "Int",
+   "label": "Skipped",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "failed_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Failed",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "results_section",
+   "fieldtype": "Section Break",
+   "label": "Results"
+  },
+  {
+   "fieldname": "results",
+   "fieldtype": "Table",
+   "label": "Results",
+   "no_copy": 1,
+   "options": "Library Bulk Issue Result",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-10 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Library",
+ "name": "Library Bulk Issue",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Library Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
