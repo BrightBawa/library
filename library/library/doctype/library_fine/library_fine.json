@@ -171,14 +171,16 @@
    "fieldname": "waiver_reason",
    "fieldtype": "Small Text",
    "label": "Waiver Reason",
-   "depends_on": "eval:doc.payment_status=='Waived'"
+   "depends_on": "eval:doc.payment_status=='Waived'",
+   "permlevel": 1
   },
   {
    "fieldname": "waived_by",
    "fieldtype": "Link",
    "label": "Waived By",
    "options": "User",
-   "depends_on": "eval:doc.payment_status=='Waived'"
+   "depends_on": "eval:doc.payment_status=='Waived'",
+   "permlevel": 1
   },
   {
    "fieldname": "notes",
@@ -199,18 +201,55 @@
    "read": 1,
    "write": 1,
    "create": 1,
-   "delete": 1
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Library Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
   },
   {
    "role": "Librarian",
    "read": 1,
    "write": 1,
-   "create": 1
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1
   },
   {
    "role": "Library Member",
    "read": 1,
-   "if_owner": 1
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "permlevel": 1,
+   "write": 1
+  },
+  {
+   "role": "Library Manager",
+   "read": 1,
+   "permlevel": 1,
+   "write": 1
+  },
+  {
+   "role": "Librarian",
+   "read": 1,
+   "permlevel": 1
   }
  ],
  "sort_field": "modified",

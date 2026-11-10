@@ -175,3 +175,15 @@ def make_issuance(member, rows, submit=True, **values):
 	if submit:
 		doc.submit()
 	return doc
+
+
+def make_user(email, *roles):
+	"""A test user with exactly these roles (rolled back with the test)."""
+	if not frappe.db.exists("User", email):
+		frappe.get_doc({"doctype": "User", "email": email, "first_name": email.split("@")[0],
+			"send_welcome_email": 0, "user_type": "System User", "enabled": 1}).insert(ignore_permissions=True)
+	user = frappe.get_doc("User", email)
+	user.set("roles", [{"role": role} for role in roles])
+	user.flags.ignore_permissions = True
+	user.save()
+	return email

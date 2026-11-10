@@ -358,14 +358,18 @@
     "owner": "Administrator",
     "permissions": [
         {
-            "create": 1,
-            "read": 1,
             "role": "System Manager",
-            "write": 1
+            "read": 1,
+            "write": 1,
+            "create": 1,
+            "print": 1
         },
         {
+            "role": "Library Manager",
             "read": 1,
-            "role": "Librarian"
+            "write": 1,
+            "create": 1,
+            "print": 1
         }
     ],
     "sort_field": "modified",

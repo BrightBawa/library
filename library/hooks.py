@@ -34,6 +34,19 @@ doc_events = {
     },
 }
 
+# A user whose only library role is Library Member sees only their own records.
+permission_query_conditions = {
+    "Library Member": "library.library.permissions.library_member_query",
+    "Library Circulation": "library.library.permissions.circulation_query",
+    "Library Reservation": "library.library.permissions.reservation_query",
+    "Library Fine": "library.library.permissions.fine_query",
+    "Library Book Issuance": "library.library.permissions.issuance_query",
+}
+has_permission = {
+    doctype: "library.library.permissions.has_member_permission"
+    for doctype in permission_query_conditions
+}
+
 # Scheduled Tasks
 scheduler_events = {
     "daily": [

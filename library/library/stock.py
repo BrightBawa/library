@@ -69,6 +69,8 @@ def make_stock_request(source_name=None, target_doc=None, books=None):
 	The user saves and submits it through the normal Material Request workflow, with
 	their own Material Request rights.
 	"""
+	if frappe.session.user != "Administrator" and not {"Library Manager", "System Manager"} & set(frappe.get_roles()):
+		frappe.throw(_("Only a Library Manager can request stock from stores."), frappe.PermissionError)
 	frappe.has_permission("Material Request", "create", throw=True)
 	names = frappe.parse_json(books) if books else [source_name]
 	settings = get_settings()

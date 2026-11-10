@@ -31,6 +31,8 @@ class LibraryFine(Document):
 		if self.payment_status == "Invoiced" and not self.sales_invoice:
 			frappe.throw(_("Use \"Bill to Student Account\" to invoice a fine."))
 		if self.payment_status == "Waived":
+			if not (before and before.payment_status == "Waived") and not can_waive():
+				frappe.throw(_("Only a Library Manager can waive a fine."), frappe.PermissionError)
 			if not (self.waiver_reason or "").strip():
 				frappe.throw(_("Enter the reason for waiving this fine."))
 			self.waived_by = self.waived_by or frappe.session.user
@@ -49,3 +51,8 @@ class LibraryFine(Document):
 
 	def after_delete(self):
 		update_member_stats(self.member)
+
+
+def can_waive(user=None):
+	user = user or frappe.session.user
+	return user == "Administrator" or bool({"Library Manager", "System Manager"} & set(frappe.get_roles(user)))
