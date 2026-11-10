@@ -99,7 +99,9 @@ def make_warehouse(name="_Test Library"):
 
 def make_item_group(name="_Test Library Books"):
 	if not frappe.db.exists("Item Group", name):
-		frappe.get_doc({"doctype": "Item Group", "item_group_name": name, "parent_item_group": "All Item Groups"}).insert()
+		group = frappe.get_doc({"doctype": "Item Group", "item_group_name": name, "parent_item_group": "All Item Groups"})
+		group.set("__newname", name)  # sites may name Item Groups by prompt
+		group.insert()
 	return name
 
 
