@@ -103,7 +103,7 @@ class TestIssuance(IssuanceTestCase):
 		issuance = make_issuance(self.sm.member, [(self.billed.name, 1), (self.free.name, 1)])
 		html = frappe.get_print("Library Book Issuance", issuance.name, print_format="Library Issuance Slip")
 		for text in ("Billed to the student", "Issued free", "_Test Maths Textbook", "_Test Exercise Book",
-				issuance.sales_invoice, frappe.get_fullname(issuance.issued_by)):
+				issuance.sales_invoice, frappe.utils.get_fullname(issuance.issued_by)):
 			self.assertIn(text, html)
 
 	def test_library_documents_cannot_be_made_or_cancelled_outside_the_library(self):
