@@ -10,6 +10,7 @@ def get_overdue_books_count():
 	"""Get count of overdue books"""
 	overdue_count = frappe.db.count("Library Circulation", {
 		"docstatus": 1,
+		"transaction_type": "Issue",
 		"return_date": ["is", "not set"],
 		"due_date": ["<", today()]
 	})

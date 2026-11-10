@@ -122,7 +122,7 @@ def get_overdue_books_report():
 			lb.author,
 			lb.isbn,
 			lbc.barcode,
-			lbc.location,
+			lbc.shelf_location,
 			lc.issue_date,
 			lc.due_date,
 			DATEDIFF(CURDATE(), lc.due_date) as days_overdue,
@@ -134,6 +134,7 @@ def get_overdue_books_report():
 		INNER JOIN `tabLibrary Book Copy` lbc ON lc.book_copy = lbc.name
 		INNER JOIN `tabLibrary Book` lb ON lbc.book = lb.name
 		WHERE lc.docstatus = 1
+			AND lc.transaction_type = 'Issue'
 			AND lc.return_date IS NULL
 			AND lc.due_date < CURDATE()
 		ORDER BY days_overdue DESC, lc.due_date ASC
@@ -237,6 +238,7 @@ def get_member_activity_report(member):
 		INNER JOIN `tabLibrary Book` lb ON lbc.book = lb.name
 		WHERE lc.member = %(member)s
 			AND lc.docstatus = 1
+			AND lc.transaction_type = 'Issue'
 			AND lc.return_date IS NULL
 		ORDER BY lc.due_date ASC
 	""", {"member": member}, as_dict=True)
@@ -386,6 +388,7 @@ def get_library_dashboard_stats():
 	# Current overdue count
 	overdue_count = frappe.db.count("Library Circulation", {
 		"docstatus": 1,
+		"transaction_type": "Issue",
 		"return_date": ["is", "not set"],
 		"due_date": ["<", today()]
 	})

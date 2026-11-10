@@ -6,22 +6,30 @@ app_email = "brightbawa11@gmail.com"
 app_license = "mit"
 
 # Required apps
-required_apps = ["frappe"]
+required_apps = ["frappe", "erpnext", "education"]
 
 # Installation
 after_install = "library.install.setup_library_workspace"
 
 # Document Events
 doc_events = {
-    "Workspace": {
-        "before_save": "library.workspace_hooks.workspace_before_save"
-    },
     "Student": {
-        "after_insert": "library.library.utils.auto_create_library_member_from_student"
+        "after_insert": "library.library.utils.auto_create_library_member_from_student",
+        "on_update": "library.library.utils.sync_library_member_status",
     },
     "Employee": {
-        "after_insert": "library.library.utils.auto_create_library_member_from_employee"
-    }
+        "after_insert": "library.library.utils.auto_create_library_member_from_employee",
+        "on_update": "library.library.utils.sync_library_member_status",
+    },
+}
+
+# Scheduled Tasks
+scheduler_events = {
+    "daily": [
+        "library.api.circulation.auto_calculate_fines",
+        "library.api.circulation.send_overdue_reminders",
+        "library.api.circulation.expire_unclaimed_reservations",
+    ],
 }
 
 # Library dashboards, charts, and number cards are standard module records under
@@ -32,7 +40,6 @@ fixtures = []
 # Apps
 # ------------------
 
-# required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [

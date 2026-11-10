@@ -381,7 +381,6 @@ def create_professional_workspace():
     workspace.title = 'Library'
     workspace.public = 1
     workspace.module = 'Library'  # Tie to Library module
-    workspace.flags.skip_export = True  # Prevent file export
     workspace.save(ignore_permissions=True)
     print('✓ Updated Library workspace with professional layout')
     
