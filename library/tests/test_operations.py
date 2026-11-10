@@ -174,17 +174,41 @@ class TestClearance(LibraryTestCase):
 		_, rows = frappe.get_attr("library.library.report.library_uncleared_students.library_uncleared_students.execute")({})
 		self.assertIn(doc.name, [r["clearance"] for r in rows])
 
-	def test_disabling_a_student_records_the_clearance_and_tells_library_managers(self):
+	def test_disabling_students_only_queues_their_clearance(self):
+		others = frappe.get_all("Student", filters={"enabled": 1, "name": ["!=", self.student]}, pluck="name", limit=2)
+		for other in others:
+			frappe.db.delete("Library Member", {"student": other})
+			make_member(f"_Test Leaver {other}", reference_doctype="Student", student=other)
+		with patch("frappe.enqueue") as enqueue:
+			for name in [self.student, *others]:
+				clearance.on_student_update(_changed(frappe.get_doc("Student", name), enabled=0))
+		jobs = [(c.args[0], c.kwargs["student"], c.kwargs["job_id"]) for c in enqueue.call_args_list]
+		self.assertEqual(jobs, [("library.library.clearance.run_student_clearance", s, f"library-clearance-{s}")
+			for s in [self.student, *others]])
+		self.assertFalse(frappe.db.exists("Library Clearance", {"student": self.student}))  # nothing done in the save
+
+	def test_the_job_records_the_clearance_and_one_digest_reaches_the_managers(self):
 		manager = make_user("library-test-manager@example.com", "Library Manager")
-		book = make_book("_Test Kept Book").name
-		circulate("Issue", self.member, make_copy(book).name)
-		student = frappe.get_doc("Student", self.student)
+		circulate("Issue", self.member, make_copy(make_book("_Test Kept Book").name).name)
+		frappe.db.set_value("Student", self.student, "enabled", 0)
+		with patch("frappe.enqueue") as enqueue:
+			name = clearance.run_student_clearance(self.student)
+		doc = frappe.get_doc("Library Clearance", name)
+		self.assertEqual((doc.docstatus, doc.status, doc.automatic), (1, "Not Cleared", 1))
+		self.assertEqual([c.args[0] for c in enqueue.call_args_list], ["library.library.clearance.send_clearance_digest"])
+
 		with patch("frappe.sendmail") as sendmail:
-			clearance.on_student_update(_changed(student, enabled=0))
-		latest = frappe.get_all("Library Clearance", filters={"student": self.student, "docstatus": 1},
-			fields=["name", "status"], order_by="creation desc", limit=1)
-		self.assertEqual(latest[0].status, "Not Cleared")
-		self.assertIn(manager, sum((c.kwargs["recipients"] for c in sendmail.call_args_list), []))
+			self.assertGreaterEqual(clearance.send_clearance_digest(), 1)
+		self.assertEqual(len(sendmail.call_args_list), 1)
+		self.assertIn(manager, sendmail.call_args.kwargs["recipients"])
+		self.assertIn(name, sendmail.call_args.kwargs["message"])
+		self.assertEqual(frappe.db.get_value("Library Clearance", name, "managers_notified"), 1)
+		with patch("frappe.sendmail") as sendmail:
+			clearance.send_clearance_digest()
+		self.assertNotIn(name, " ".join(c.kwargs["message"] for c in sendmail.call_args_list))
+
+	def test_a_student_enabled_again_before_the_job_runs_is_skipped(self):
+		self.assertIsNone(clearance.run_student_clearance(self.student))  # still enabled
 
 	def test_bulk_clearance(self):
 		doc = frappe.get_doc({"doctype": "Library Bulk Clearance",

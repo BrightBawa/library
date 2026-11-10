@@ -45,10 +45,10 @@ def student_members(student):
 	return frappe.get_all("Library Member", filters={"student": student}, pluck="name")
 
 
-def make_clearance(student, academic_year=None, submit=True, remarks=None):
+def make_clearance(student, academic_year=None, submit=True, remarks=None, automatic=False):
 	"""Create (and submit) a Library Clearance for a student; returns the document."""
 	doc = frappe.get_doc({"doctype": "Library Clearance", "student": student, "academic_year": academic_year,
-		"remarks": remarks}).insert(ignore_permissions=True)
+		"remarks": remarks, "automatic": 1 if automatic else 0}).insert(ignore_permissions=True)
 	if submit:
 		doc.flags.ignore_permissions = True
 		doc.submit()
@@ -56,21 +56,54 @@ def make_clearance(student, academic_year=None, submit=True, remarks=None):
 
 
 def on_student_update(doc, method=None):
-	"""Student on_update: when a student is disabled, record their library clearance and tell the
-	Library Managers if they are not cleared."""
+	"""Student on_update: when a student is disabled, queue their library clearance.
+
+	Only a background job is queued here, after the save commits, so disabling many students
+	at once (a class leaving, a data import) stays fast. One job per student, deduplicated.
+	"""
 	before = doc.get_doc_before_save()
 	if not before or not before.get("enabled") or doc.get("enabled"):
 		return
 	if not student_members(doc.name):
 		return
-	clearance = make_clearance(doc.name, remarks=_("Checked automatically when the student was disabled."))
-	if clearance.status == "Not Cleared":
-		managers = frappe.get_all("Has Role", filters={"role": "Library Manager", "parenttype": "User"}, pluck="parent")
-		emails = frappe.get_all("User", filters={"name": ["in", managers or [""]], "enabled": 1}, pluck="email")
-		if emails:
-			frappe.sendmail(recipients=emails, subject=_("Not cleared by the library: {0}").format(doc.student_name),
-				message=_("<p>{0} ({1}) was disabled but still has {2} outstanding item(s) with the library, "
-					"{3} owed. See {4}.</p>").format(doc.student_name, doc.name, len(clearance.items),
-					frappe.format_value(clearance.total_owed, {"fieldtype": "Currency"}),
-					frappe.utils.get_link_to_form("Library Clearance", clearance.name)),
-				reference_doctype="Library Clearance", reference_name=clearance.name)
+	frappe.enqueue("library.library.clearance.run_student_clearance", queue="long", timeout=600,
+		job_id=f"library-clearance-{doc.name}", deduplicate=True, enqueue_after_commit=True, student=doc.name)
+
+
+def run_student_clearance(student):
+	"""Background job: record the clearance of a disabled student; queue the managers' digest if not cleared."""
+	if frappe.db.get_value("Student", student, "enabled"):
+		return None  # enabled again before the job ran
+	doc = make_clearance(student, automatic=True,
+		remarks=_("Checked automatically when the student was disabled."))
+	if doc.status == "Not Cleared":
+		frappe.enqueue("library.library.clearance.send_clearance_digest", queue="long", timeout=600,
+			job_id="library-clearance-digest", deduplicate=True, enqueue_after_commit=True)
+	return doc.name
+
+
+def send_clearance_digest():
+	"""Background job: one email to the Library Managers listing every automatic clearance that is
+	not cleared and not yet reported, however many students were disabled together."""
+	pending = frappe.get_all("Library Clearance",
+		filters={"docstatus": 1, "automatic": 1, "status": "Not Cleared", "managers_notified": 0},
+		fields=["name", "student", "student_name", "student_batch", "total_owed"], order_by="student_name")
+	if not pending:
+		return 0
+	managers = frappe.get_all("Has Role", filters={"role": "Library Manager", "parenttype": "User"}, pluck="parent")
+	emails = frappe.get_all("User", filters={"name": ["in", managers or [""]], "enabled": 1}, pluck="email")
+	if emails:
+		lines = "".join(
+			"<tr><td>{0}</td><td>{1}</td><td>{2}</td><td style='text-align:right'>{3}</td><td>{4}</td></tr>".format(
+				frappe.utils.escape_html(c.student_name or ""), c.student, c.student_batch or "",
+				frappe.format_value(c.total_owed, {"fieldtype": "Currency"}),
+				frappe.utils.get_link_to_form("Library Clearance", c.name)) for c in pending)
+		frappe.sendmail(recipients=emails,
+			subject=_("Library: {0} disabled student(s) not cleared").format(len(pending)),
+			message=_("<p>These students were disabled but still have items outstanding with the library:</p>")
+				+ "<table border='1' cellpadding='4' style='border-collapse:collapse'><tr><th>{0}</th><th>{1}</th>"
+				"<th>{2}</th><th>{3}</th><th>{4}</th></tr>{5}</table>".format(
+					_("Student"), _("ID"), _("Class"), _("Owed"), _("Clearance"), lines))
+	for c in pending:
+		frappe.db.set_value("Library Clearance", c.name, "managers_notified", 1, update_modified=False)
+	return len(pending)
