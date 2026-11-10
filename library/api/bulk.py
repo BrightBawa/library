@@ -92,3 +92,51 @@ def run_bulk_issue(bulk_issue, user=None, commit_every=10):
 	frappe.publish_realtime(PROGRESS_EVENT, {"name": bulk.name, "done": len(students), "total": len(students), "finished": 1},
 		doctype=bulk.doctype, docname=bulk.name)
 	return counts
+
+
+def run_bulk_clearance(bulk_clearance, user=None, commit_every=20):
+	"""Create and submit a Library Clearance for each student of a Library Bulk Clearance."""
+	from library.library.clearance import make_clearance
+
+	if user:
+		frappe.set_user(user)
+	bulk = frappe.get_doc("Library Bulk Clearance", bulk_clearance)
+	bulk.db_set("status", "Running")
+	frappe.db.commit()
+	done = {r.student for r in bulk.results if r.status != "Failed"}
+	frappe.db.delete("Library Bulk Clearance Result", {"parent": bulk.name, "status": "Failed"})
+	counts = {"Cleared": 0, "Not Cleared": 0, "Failed": 0}
+	for r in bulk.results:
+		if r.status != "Failed":
+			counts[r.status] += 1
+	students = bulk.get_students()
+	idx = len(done)
+	for position, student in enumerate(students, start=1):
+		if student in done:
+			continue
+		frappe.local.message_log = []
+		frappe.db.savepoint("library_bulk_clearance")
+		try:
+			doc = make_clearance(student, academic_year=bulk.academic_year, remarks=_("Bulk clearance {0}").format(bulk.name))
+			status, clearance, message = doc.status, doc.name, (_("{0} outstanding").format(len(doc.items)) if doc.items else None)
+		except Exception as e:
+			frappe.db.rollback(save_point="library_bulk_clearance")
+			status, clearance, message = "Failed", None, strip_html(str(e))[:500] or e.__class__.__name__
+		counts[status] += 1
+		idx += 1
+		frappe.get_doc({"doctype": "Library Bulk Clearance Result", "parent": bulk.name, "parenttype": "Library Bulk Clearance",
+			"parentfield": "results", "idx": idx, "student": student,
+			"student_name": frappe.db.get_value("Student", student, "student_name"),
+			"status": status, "clearance": clearance, "message": message}).db_insert()
+		if (commit_every and position % commit_every == 0) or position == len(students):
+			bulk.db_set({"cleared_count": counts["Cleared"], "not_cleared_count": counts["Not Cleared"],
+				"failed_count": counts["Failed"]}, update_modified=False)
+			frappe.db.commit()
+			frappe.publish_realtime(PROGRESS_EVENT, {"name": bulk.name, "done": position, "total": len(students)},
+				doctype=bulk.doctype, docname=bulk.name)
+	bulk.db_set({"cleared_count": counts["Cleared"], "not_cleared_count": counts["Not Cleared"], "failed_count": counts["Failed"],
+		"status": "Completed with Errors" if counts["Failed"] else "Completed"})
+	frappe.db.commit()
+	frappe.publish_realtime(PROGRESS_EVENT, {"name": bulk.name, "done": len(students), "total": len(students), "finished": 1},
+		doctype=bulk.doctype, docname=bulk.name)
+	return counts

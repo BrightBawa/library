@@ -53,6 +53,10 @@ def issuance_query(user=None):
 	return _member_condition("Library Book Issuance", "member", user)
 
 
+def clearance_query(user=None):
+	return _member_condition("Library Clearance", "member", user)
+
+
 def has_member_permission(doc, ptype=None, user=None):
 	"""Direct URLs and document API calls: a restricted user may only read their own records."""
 	user = user or frappe.session.user

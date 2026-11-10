@@ -15,6 +15,7 @@ it is saved with ignore_permissions (get_party_account), so these documents are 
 ``as_system()``: as Administrator, owned by the user who issued them.
 """
 
+from collections import defaultdict
 from contextlib import contextmanager
 
 import frappe
@@ -138,12 +139,16 @@ def make_stock_entry(*, purpose, company, posting_date, rows, issuance=None, doc
 		**_links(issuance, document),
 	})
 	for row in rows:
-		entry.append("items", {
+		line = {
 			"item_code": row["item_code"], "qty": row["qty"], "conversion_factor": 1,
 			warehouse_field: settings.library_warehouse,
 			"expense_account": settings.issue_expense_account,
 			"cost_center": settings.default_cost_center,
-		})
+		}
+		if purpose == "Material Receipt":
+			line["basic_rate"] = flt(row.get("basic_rate"))
+			line["allow_zero_valuation_rate"] = 0 if flt(row.get("basic_rate")) else 1
+		entry.append("items", line)
 	_library_flags(entry)
 	with as_system() as user:
 		entry.run_method("set_missing_values")
@@ -162,11 +167,11 @@ def assert_unpaid(invoice):
 	if not invoice:
 		return
 	values = frappe.db.get_value("Sales Invoice", invoice,
-		["docstatus", "outstanding_amount", "grand_total", "rounded_total", "is_return"], as_dict=True)
-	if not values or values.docstatus != 1 or values.is_return:
+		["docstatus", "outstanding_amount", "grand_total", "rounded_total"], as_dict=True)
+	if not values or values.docstatus != 1:
 		return
-	total = flt(values.rounded_total) or flt(values.grand_total)
-	if abs(flt(values.outstanding_amount) - total) > 0.005:
+	total = abs(flt(values.rounded_total) or flt(values.grand_total))
+	if abs(abs(flt(values.outstanding_amount)) - total) > 0.005:
 		frappe.throw(_("Sales Invoice {0} has payments or credit notes against it ({1} of {2} outstanding). "
 			"Use a Library Issuance Return instead of cancelling.").format(
 			invoice, flt(values.outstanding_amount), total))
@@ -255,3 +260,63 @@ def bill_fine_now(fine):
 
 	update_member_stats(doc.member)
 	return invoice
+
+
+def make_credit_note(*, original_invoice, quantities, posting_date, issuance=None, document=None, remarks=None):
+	"""Insert and submit a credit note against a library invoice for some of its items.
+
+	quantities: {item_code: qty returned}. Built with ERPNext's make_return_doc, so each line
+	refers to the original invoice line and stock goes back into the original warehouse.
+	"""
+	from erpnext.controllers.sales_and_purchase_return import make_return_doc
+
+	wanted = defaultdict(float, {k: flt(v) for k, v in quantities.items()})
+	with as_system() as user:
+		credit = make_return_doc("Sales Invoice", original_invoice)
+		kept = []
+		for line in credit.items:
+			take = min(wanted[line.item_code], abs(flt(line.qty)))
+			if take > 0:
+				line.qty = -take
+				line.stock_qty = -take * flt(line.conversion_factor or 1)
+				wanted[line.item_code] -= take
+				kept.append(line)
+		if any(qty > 0.0001 for qty in wanted.values()):
+			frappe.throw(_("Invoice {0} does not have enough of these items to credit.").format(original_invoice))
+		for idx, line in enumerate(kept, start=1):
+			line.idx = idx
+		credit.set("items", kept)
+		credit.update({"posting_date": posting_date, "set_posting_time": 1, "remarks": remarks, **_links(issuance, document)})
+		_library_flags(credit)
+		credit.run_method("calculate_taxes_and_totals")
+		credit.insert()
+		credit.submit()
+	keep_owner(credit, user)
+	return credit
+
+
+def make_stock_reconciliation(*, rows, company, posting_date, document, remarks=None):
+	"""Insert and submit a Stock Reconciliation setting library-warehouse quantities to the counted ones.
+
+	rows: dicts with item_code, qty (counted) and valuation_rate.
+	"""
+	settings = get_settings()
+	require(settings, "library_warehouse", "default_cost_center")
+	reconciliation = frappe.new_doc("Stock Reconciliation")
+	reconciliation.update({
+		"company": company, "purpose": "Stock Reconciliation", "posting_date": posting_date, "set_posting_time": 1,
+		"expense_account": frappe.get_cached_value("Company", company, "stock_adjustment_account"),
+		"cost_center": settings.default_cost_center, **_links(None, document),
+	})
+	for row in rows:
+		reconciliation.append("items", {
+			"item_code": row["item_code"], "warehouse": settings.library_warehouse, "qty": flt(row["qty"]),
+			"valuation_rate": flt(row.get("valuation_rate")),
+			"allow_zero_valuation_rate": 0 if flt(row.get("valuation_rate")) else 1,
+		})
+	_library_flags(reconciliation)
+	with as_system() as user:
+		reconciliation.insert()
+		reconciliation.submit()
+	keep_owner(reconciliation, user)
+	return reconciliation

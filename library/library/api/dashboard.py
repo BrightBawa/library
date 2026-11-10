@@ -110,3 +110,26 @@ def unpaid_fines(filters=None):
 def get_overdue_books_count():
 	"""Kept for the old "Overdue Books" card until the patch removes it."""
 	return overdue_loans()["value"]
+
+
+def latest_clearances():
+	"""Each student's most recent submitted clearance."""
+	return frappe.db.sql("""
+		select c.student, c.name, c.status from `tabLibrary Clearance` c
+		where c.docstatus = 1 and c.name = (
+			select c2.name from `tabLibrary Clearance` c2 where c2.student = c.student and c2.docstatus = 1
+			order by c2.clearance_date desc, c2.creation desc limit 1)""", as_dict=True)
+
+
+@frappe.whitelist()
+def uncleared_students(filters=None):
+	"""Students whose latest library clearance is Not Cleared."""
+	_require("Library Clearance")
+	return _card(sum(1 for c in latest_clearances() if c.status == "Not Cleared"))
+
+
+@frappe.whitelist()
+def class_sets_on_loan(filters=None):
+	_require("Library Class Set Loan")
+	return _card(frappe.db.count("Library Class Set Loan",
+		{"docstatus": 1, "status": ["in", ["Open", "Partly Returned", "Overdue"]]}))

@@ -16,7 +16,10 @@ after_migrate = ["library.install.after_migrate"]
 doc_events = {
     "Student": {
         "after_insert": "library.library.utils.auto_create_library_member_from_student",
-        "on_update": "library.library.utils.sync_library_member_status",
+        "on_update": [
+            "library.library.utils.sync_library_member_status",
+            "library.library.clearance.on_student_update",
+        ],
     },
     "Employee": {
         "after_insert": "library.library.utils.auto_create_library_member_from_employee",
@@ -42,6 +45,7 @@ permission_query_conditions = {
     "Library Reservation": "library.library.permissions.reservation_query",
     "Library Fine": "library.library.permissions.fine_query",
     "Library Book Issuance": "library.library.permissions.issuance_query",
+    "Library Clearance": "library.library.permissions.clearance_query",
 }
 has_permission = {
     doctype: "library.library.permissions.has_member_permission"
@@ -56,6 +60,7 @@ scheduler_events = {
         "library.library.notifications.send_due_date_reminders",
         "library.api.circulation.expire_unclaimed_reservations",
         "library.library.stock.refresh_all_issue_books",
+        "library.library.doctype.library_class_set_loan.library_class_set_loan.refresh_statuses",
     ],
 }
 
