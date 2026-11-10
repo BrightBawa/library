@@ -1,47 +1,56 @@
 {
- "charts": [],
- "content": "[{\"id\":\"header_overview\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcda Library Overview</b></span>\",\"col\":12}},{\"id\":\"shortcut_dashboard\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Library Statistics\",\"col\":3}},{\"id\":\"shortcut_issue\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Issue Book\",\"col\":3}},{\"id\":\"shortcut_return\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Return Book\",\"col\":3}},{\"id\":\"shortcut_settings\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Settings\",\"col\":3}},{\"id\":\"spacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"card_total_books\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Books\",\"col\":3}},{\"id\":\"card_available\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Available Books\",\"col\":3}},{\"id\":\"card_issued\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Issued Books\",\"col\":3}},{\"id\":\"card_overdue\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Overdue Books\",\"col\":3}},{\"id\":\"card_active_members\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Members\",\"col\":3}},{\"id\":\"card_total_members\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Members\",\"col\":3}},{\"id\":\"card_fines\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Outstanding Fines\",\"col\":3}},{\"id\":\"card_reservations\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Reservations\",\"col\":3}},{\"id\":\"spacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"header_management\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcd6 Quick Access</b></span>\",\"col\":12}},{\"id\":\"quick_books\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Books\",\"col\":3}},{\"id\":\"quick_copies\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Book Copies\",\"col\":3}},{\"id\":\"quick_members\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Members\",\"col\":3}},{\"id\":\"quick_categories\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Categories\",\"col\":3}},{\"id\":\"quick_fines\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fines\",\"col\":3}},{\"id\":\"quick_reservations\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Reservations\",\"col\":3}},{\"id\":\"quick_membership\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Membership Types\",\"col\":3}}]",
- "creation": "2025-12-18 14:33:16.919827",
+ "app": "library",
+ "charts": [
+  {
+   "chart_name": "Library Issuances per Month",
+   "label": "Library Issuances per Month"
+  },
+  {
+   "chart_name": "Library Amount Billed per Month",
+   "label": "Library Amount Billed per Month"
+  },
+  {
+   "chart_name": "Library Billed vs Free",
+   "label": "Library Billed vs Free"
+  },
+  {
+   "chart_name": "Library Top Books Issued",
+   "label": "Library Top Books Issued"
+  },
+  {
+   "chart_name": "Library Stock by Category",
+   "label": "Library Stock by Category"
+  },
+  {
+   "chart_name": "Library Issuances by Class",
+   "label": "Library Issuances by Class"
+  },
+  {
+   "chart_name": "Library Loans vs Returns",
+   "label": "Library Loans vs Returns"
+  }
+ ],
+ "content": "[{\"id\": \"hdr_glance\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Library at a glance</b></span>\", \"col\": 12}}, {\"id\": \"card_0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Books in Stock\", \"col\": 3}}, {\"id\": \"card_1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Copies on Loan\", \"col\": 3}}, {\"id\": \"card_2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Overdue Loans\", \"col\": 3}}, {\"id\": \"card_3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Issuances This Month\", \"col\": 3}}, {\"id\": \"card_4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Amount Billed This Term\", \"col\": 3}}, {\"id\": \"card_5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Free Books This Term\", \"col\": 3}}, {\"id\": \"card_6\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Active Members\", \"col\": 3}}, {\"id\": \"card_7\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Library Unpaid Fines\", \"col\": 3}}, {\"id\": \"hdr_trends\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Trends</b></span>\", \"col\": 12}}, {\"id\": \"chart_0\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Issuances per Month\", \"col\": 6}}, {\"id\": \"chart_1\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Amount Billed per Month\", \"col\": 6}}, {\"id\": \"chart_2\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Billed vs Free\", \"col\": 4}}, {\"id\": \"chart_3\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Top Books Issued\", \"col\": 8}}, {\"id\": \"chart_4\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Stock by Category\", \"col\": 6}}, {\"id\": \"chart_5\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Issuances by Class\", \"col\": 6}}, {\"id\": \"chart_6\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Library Loans vs Returns\", \"col\": 12}}, {\"id\": \"hdr_actions\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Quick actions</b></span>\", \"col\": 12}}, {\"id\": \"shortcut_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Library Book\", \"col\": 3}}, {\"id\": \"shortcut_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Library Member\", \"col\": 3}}, {\"id\": \"shortcut_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Issue Book\", \"col\": 3}}, {\"id\": \"shortcut_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Return Book\", \"col\": 3}}, {\"id\": \"shortcut_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Reservations\", \"col\": 3}}, {\"id\": \"shortcut_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Library Dashboard\", \"col\": 3}}, {\"id\": \"shortcut_6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Issuance\", \"col\": 3}}, {\"id\": \"shortcut_7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Bulk Issue\", \"col\": 3}}, {\"id\": \"shortcut_8\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Request Stock\", \"col\": 3}}, {\"id\": \"hdr_library\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Library</b></span>\", \"col\": 12}}, {\"id\": \"linkcard_0\", \"type\": \"card\", \"data\": {\"card_name\": \"Catalogue\", \"col\": 4}}, {\"id\": \"linkcard_1\", \"type\": \"card\", \"data\": {\"card_name\": \"Circulation\", \"col\": 4}}, {\"id\": \"linkcard_2\", \"type\": \"card\", \"data\": {\"card_name\": \"Issuance and Billing\", \"col\": 4}}, {\"id\": \"linkcard_3\", \"type\": \"card\", \"data\": {\"card_name\": \"Members\", \"col\": 4}}, {\"id\": \"linkcard_4\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
+ "creation": "2025-12-16 10:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "",
+ "icon": "library",
  "idx": 0,
- "indicator_color": "",
+ "indicator_color": "blue",
  "is_hidden": 0,
  "label": "Library",
  "links": [
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Library Circulation",
-   "link_count": 0,
-   "link_to": "Library Circulation",
+   "label": "Catalogue",
+   "link_count": 3,
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Library Reservation",
-   "link_count": 0,
-   "link_to": "Library Reservation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Library Fine",
-   "link_count": 0,
-   "link_to": "Library Fine",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
+   "type": "Card Break"
   },
   {
    "hidden": 0,
@@ -76,6 +85,83 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Circulation",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Circulation",
+   "link_count": 0,
+   "link_to": "Library Circulation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Reservation",
+   "link_count": 0,
+   "link_to": "Library Reservation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Fine",
+   "link_count": 0,
+   "link_to": "Library Fine",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Issuance and Billing",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Book Issuance",
+   "link_count": 0,
+   "link_to": "Library Book Issuance",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Library Bulk Issue",
+   "link_count": 0,
+   "link_to": "Library Bulk Issue",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Members",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Library Member",
    "link_count": 0,
    "link_to": "Library Member",
@@ -96,6 +182,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Library Settings",
    "link_count": 0,
    "link_to": "Library Settings",
@@ -104,42 +199,42 @@
    "type": "Link"
   }
  ],
- "modified": "2026-01-05 14:43:11.176722",
+ "modified": "2026-11-10 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "Library",
  "name": "Library",
  "number_cards": [
   {
-   "label": "Total Books",
-   "number_card_name": "Total Books"
+   "label": "Library Books in Stock",
+   "number_card_name": "Library Books in Stock"
   },
   {
-   "label": "Available Books",
-   "number_card_name": "Available Books"
+   "label": "Library Copies on Loan",
+   "number_card_name": "Library Copies on Loan"
   },
   {
-   "label": "Issued Books",
-   "number_card_name": "Issued Books"
+   "label": "Library Overdue Loans",
+   "number_card_name": "Library Overdue Loans"
   },
   {
-   "label": "Overdue Books",
-   "number_card_name": "Overdue Books"
+   "label": "Library Issuances This Month",
+   "number_card_name": "Library Issuances This Month"
   },
   {
-   "label": "Active Members",
-   "number_card_name": "Active Members"
+   "label": "Library Amount Billed This Term",
+   "number_card_name": "Library Amount Billed This Term"
   },
   {
-   "label": "Total Members",
-   "number_card_name": "Total Members"
+   "label": "Library Free Books This Term",
+   "number_card_name": "Library Free Books This Term"
   },
   {
-   "label": "Outstanding Fines",
-   "number_card_name": "Outstanding Fines"
+   "label": "Library Active Members",
+   "number_card_name": "Library Active Members"
   },
   {
-   "label": "Active Reservations",
-   "number_card_name": "Active Reservations"
+   "label": "Library Unpaid Fines",
+   "number_card_name": "Library Unpaid Fines"
   }
  ],
  "owner": "Administrator",
@@ -150,94 +245,91 @@
  "sequence_id": 14.0,
  "shortcuts": [
   {
-   "color": "Green",
-   "doc_view": "Dashboard",
-   "format": "{} Active",
-   "label": "Library Statistics",
-   "link_to": "Library Dashboard",
-   "stats_filter": "{}",
-   "type": "Dashboard"
+   "color": "blue",
+   "doc_view": "",
+   "format": "{} New",
+   "icon": "book",
+   "label": "New Library Book",
+   "link_to": "Library Book",
+   "type": "DocType"
   },
   {
-   "color": "Blue",
-   "format": "",
-   "icon": "book-open",
+   "color": "green",
+   "doc_view": "",
+   "format": "{} New",
+   "icon": "user",
+   "label": "New Library Member",
+   "link_to": "Library Member",
+   "type": "DocType"
+  },
+  {
+   "color": "green",
+   "doc_view": "",
+   "format": "{} New",
+   "icon": "book",
    "label": "Issue Book",
    "link_to": "Library Circulation",
    "type": "DocType"
   },
   {
-   "color": "Orange",
-   "format": "",
-   "icon": "corner-down-left",
+   "color": "blue",
+   "doc_view": "",
+   "format": "{} on loan",
+   "icon": "return",
    "label": "Return Book",
    "link_to": "Library Circulation",
+   "stats_filter": "{\"transaction_type\": \"Issue\", \"return_date\": [\"is\", \"not set\"], \"docstatus\": 1}",
    "type": "DocType"
   },
   {
-   "color": "Blue",
-   "format": "",
-   "icon": "book",
-   "label": "Books",
-   "link_to": "Library Book",
-   "type": "DocType"
-  },
-  {
-   "color": "Cyan",
-   "format": "",
-   "icon": "copy",
-   "label": "Book Copies",
-   "link_to": "Library Book Copy",
-   "type": "DocType"
-  },
-  {
-   "color": "Cyan",
-   "format": "",
-   "icon": "users",
-   "label": "Members",
-   "link_to": "Library Member",
-   "type": "DocType"
-  },
-  {
-   "color": "Green",
-   "format": "",
-   "icon": "user-check",
-   "label": "Membership Types",
-   "link_to": "Library Membership Type",
-   "type": "DocType"
-  },
-  {
-   "color": "Yellow",
-   "format": "",
-   "icon": "dollar-sign",
-   "label": "Fines",
-   "link_to": "Library Fine",
-   "type": "DocType"
-  },
-  {
-   "color": "Pink",
-   "format": "",
-   "icon": "bookmark",
+   "color": "orange",
+   "doc_view": "",
+   "format": "{} Active",
+   "icon": "calendar",
    "label": "Reservations",
    "link_to": "Library Reservation",
+   "stats_filter": "{\"status\": \"Active\"}",
    "type": "DocType"
   },
   {
-   "color": "Purple",
+   "color": "purple",
+   "doc_view": "",
    "format": "",
-   "icon": "tag",
-   "label": "Categories",
-   "link_to": "Library Category",
+   "icon": "dashboard",
+   "label": "Library Dashboard",
+   "link_to": "Library Dashboard",
+   "type": "Dashboard"
+  },
+  {
+   "color": "cyan",
+   "doc_view": "",
+   "format": "{} Draft",
+   "icon": "file",
+   "label": "New Issuance",
+   "link_to": "Library Book Issuance",
+   "stats_filter": "{\"docstatus\": 0}",
    "type": "DocType"
   },
   {
-   "color": "Grey",
+   "color": "pink",
+   "doc_view": "",
    "format": "",
-   "icon": "settings",
-   "label": "Settings",
-   "link_to": "Library Settings",
+   "icon": "users",
+   "label": "Bulk Issue",
+   "link_to": "Library Bulk Issue",
+   "type": "DocType"
+  },
+  {
+   "color": "yellow",
+   "doc_view": "",
+   "format": "{} Issue-type",
+   "icon": "stock",
+   "label": "Request Stock",
+   "link_to": "Library Book",
+   "stats_filter": "{\"book_type\": \"Issue\"}",
    "type": "DocType"
   }
  ],
- "title": "Library"
+ "title": "Library",
+ "type": "Workspace"
 }

@@ -1,42 +1,58 @@
 {
     "cards": [
         {
-            "card": "Total Books"
+            "card": "Library Books in Stock"
         },
         {
-            "card": "Available Books"
+            "card": "Library Copies on Loan"
         },
         {
-            "card": "Issued Books"
+            "card": "Library Overdue Loans"
         },
         {
-            "card": "Overdue Books"
+            "card": "Library Issuances This Month"
         },
         {
-            "card": "Active Members"
+            "card": "Library Amount Billed This Term"
         },
         {
-            "card": "Total Members"
+            "card": "Library Free Books This Term"
         },
         {
-            "card": "Outstanding Fines"
+            "card": "Library Active Members"
         },
         {
-            "card": "Active Reservations"
+            "card": "Library Unpaid Fines"
         }
     ],
     "charts": [
         {
-            "chart": "Circulation Trend"
+            "chart": "Library Issuances per Month",
+            "width": "Half"
         },
         {
-            "chart": "Category Distribution"
+            "chart": "Library Amount Billed per Month",
+            "width": "Half"
         },
         {
-            "chart": "Member Activity"
+            "chart": "Library Billed vs Free",
+            "width": "Half"
         },
         {
-            "chart": "Fine Collection"
+            "chart": "Library Top Books Issued",
+            "width": "Half"
+        },
+        {
+            "chart": "Library Stock by Category",
+            "width": "Half"
+        },
+        {
+            "chart": "Library Issuances by Class",
+            "width": "Half"
+        },
+        {
+            "chart": "Library Loans vs Returns",
+            "width": "Full"
         }
     ],
     "creation": "2025-12-16 10:00:00.000000",
@@ -46,7 +62,7 @@
     "idx": 0,
     "is_default": 1,
     "is_standard": 1,
-    "modified": "2025-12-16 10:00:00.000000",
+    "modified": "2026-11-10 15:00:00.000000",
     "modified_by": "Administrator",
     "module": "Library",
     "name": "Library Dashboard",

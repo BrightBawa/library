@@ -9,7 +9,7 @@ app_license = "mit"
 required_apps = ["frappe", "erpnext", "education"]
 
 # Installation
-after_install = "library.install.setup_library_workspace"
+after_install = "library.install.after_install"
 
 # Document Events
 doc_events = {

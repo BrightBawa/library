@@ -1,0 +1,23 @@
+{
+ "color": "#ff5858",
+ "creation": "2026-11-10 15:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Library Circulation",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[]",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Overdue Loans",
+ "method": "library.library.api.dashboard.overdue_loans",
+ "modified": "2026-11-10 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Library",
+ "name": "Library Overdue Loans",
+ "owner": "Administrator",
+ "show_full_number": 1,
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}

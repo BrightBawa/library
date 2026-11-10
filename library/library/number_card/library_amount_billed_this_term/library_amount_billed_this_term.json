@@ -1,0 +1,23 @@
+{
+ "color": "#28a745",
+ "creation": "2026-11-10 15:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Library Book Issuance",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[]",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Amount Billed This Term",
+ "method": "library.library.api.dashboard.billed_this_term",
+ "modified": "2026-11-10 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Library",
+ "name": "Library Amount Billed This Term",
+ "owner": "Administrator",
+ "show_full_number": 1,
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}
