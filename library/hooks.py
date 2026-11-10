@@ -10,6 +10,7 @@ required_apps = ["frappe", "erpnext", "education"]
 
 # Installation
 after_install = "library.install.after_install"
+after_migrate = ["library.install.after_migrate"]
 
 # Document Events
 doc_events = {
@@ -51,7 +52,8 @@ has_permission = {
 scheduler_events = {
     "daily": [
         "library.api.circulation.auto_calculate_fines",
-        "library.api.circulation.send_overdue_reminders",
+        "library.library.notifications.send_overdue_reminders",
+        "library.library.notifications.send_due_date_reminders",
         "library.api.circulation.expire_unclaimed_reservations",
         "library.library.stock.refresh_all_issue_books",
     ],

@@ -7,7 +7,7 @@ the form. Permission checks are the normal create/submit checks of that DocType.
 
 import frappe
 from frappe import _
-from frappe.utils import cint, getdate, today
+from frappe.utils import getdate, today
 
 from library.library import fines, reservations
 from library.library.stats import OPEN_LOAN, members_with_open_loans, update_member_stats
@@ -76,29 +76,10 @@ def _open_overdue_loans():
 
 
 def send_overdue_reminders():
-	"""Daily: email members whose loan is at least `overdue_reminder_days` overdue."""
-	if not cint(frappe.db.get_single_value("Library Settings", "send_overdue_reminders")):
-		return 0
-	after = cint(frappe.db.get_single_value("Library Settings", "overdue_reminder_days")) or 1
-	sent = 0
-	for loan in _open_overdue_loans():
-		days = fines.days_overdue(loan.due_date)
-		email = frappe.db.get_value("Library Member", loan.member, "email")
-		if days < after or not email:
-			continue
-		frappe.sendmail(
-			recipients=[email],
-			subject=_("Overdue library book: {0}").format(loan.book_title),
-			message=_(
-				"<p>Dear {0},</p><p><strong>{1}</strong> (copy {2}) was due on {3} and is now"
-				" {4} days overdue. Please return it to the library as soon as possible.</p><p>Library</p>"
-			).format(loan.member_name, loan.book_title, loan.book_copy,
-				frappe.utils.formatdate(loan.due_date), days),
-			reference_doctype="Library Circulation",
-			reference_name=loan.name,
-		)
-		sent += 1
-	return sent
+	"""Kept for jobs queued under this path; the daily job is library.library.notifications."""
+	from library.library.notifications import send_overdue_reminders as send
+
+	return send()
 
 
 def auto_calculate_fines():
