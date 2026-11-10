@@ -21,6 +21,7 @@ class TestRoles(IssuanceTestCase):
 		self.assertEqual(issuance.issued_by, self.librarian)
 		invoice = frappe.db.get_value("Sales Invoice", issuance.sales_invoice, ["docstatus", "owner"], as_dict=True)
 		self.assertEqual((invoice.docstatus, invoice.owner), (1, self.librarian))
+		self.assertEqual(frappe.session.user, self.librarian)
 		with self.assertRaises(frappe.PermissionError):
 			issuance.cancel()
 
@@ -28,6 +29,13 @@ class TestRoles(IssuanceTestCase):
 		issuance = frappe.get_doc("Library Book Issuance", issuance.name)
 		issuance.cancel()
 		self.assertEqual(frappe.db.get_value("Sales Invoice", issuance.sales_invoice, "docstatus"), 2)
+
+	def test_librarians_add_issue_type_books_and_their_items(self):
+		frappe.set_user(self.librarian)
+		book = make_book("_Test Librarian Workbook", book_type="Issue")
+		item = frappe.db.get_value("Item", book.item, ["owner", "is_stock_item"], as_dict=True)
+		self.assertEqual((item.owner, item.is_stock_item), (self.librarian, 1))
+		self.assertEqual(frappe.session.user, self.librarian)  # the system context gave the user back
 
 	def test_settings_and_bulk_issue_are_for_library_managers(self):
 		frappe.set_user(self.librarian)

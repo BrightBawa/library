@@ -46,7 +46,11 @@ def make_book_item(book):
 		"include_item_in_manufacturing": 0,
 		"description": ", ".join(filter(None, [book.book_title, book.author, book.isbn])),
 	})
-	item.insert(ignore_permissions=True)
+	from library.library.billing import as_system, keep_owner
+
+	with as_system() as user:  # Item validation reads masters with the session user's rights
+		item.insert(ignore_permissions=True)
+	keep_owner(item, user)
 	return item.name
 
 

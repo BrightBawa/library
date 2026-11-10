@@ -180,10 +180,17 @@ def make_issuance(member, rows, submit=True, **values):
 
 
 def make_user(email, *roles):
-	"""A test user with exactly these roles (rolled back with the test)."""
+	"""A test user with exactly these roles (rolled back with the test).
+
+	ERPNext drops the Employee role from users with no Employee record, so a user given
+	that role is first linked to an active Employee that has no user.
+	"""
 	if not frappe.db.exists("User", email):
 		frappe.get_doc({"doctype": "User", "email": email, "first_name": email.split("@")[0],
 			"send_welcome_email": 0, "user_type": "System User", "enabled": 1}).insert(ignore_permissions=True)
+	if "Employee" in roles and not frappe.db.exists("Employee", {"user_id": email}):
+		employee = frappe.db.get_value("Employee", {"status": "Active", "user_id": ["is", "not set"]})
+		frappe.db.set_value("Employee", employee, "user_id", email, update_modified=False)
 	user = frappe.get_doc("User", email)
 	user.set("roles", [{"role": role} for role in roles])
 	user.flags.ignore_permissions = True

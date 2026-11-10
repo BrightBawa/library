@@ -26,5 +26,5 @@ def resolve(code):
 	if not book:
 		return None
 	values = frappe.db.get_value("Library Book", book, ["name", "book_title", "book_type", "is_billable"], as_dict=True)
-	values.copy = copy
+	values["book_copy"] = copy  # not "copy": frappe._dict.copy is the dict method
 	return values

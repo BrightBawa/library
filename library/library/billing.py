@@ -9,7 +9,13 @@ library records.
 
 Invoices never set Sales Invoice.student: a student field makes other apps treat the
 invoice as a school fee bill.
+
+ERPNext checks the session user's access to accounts while building an invoice even when
+it is saved with ignore_permissions (get_party_account), so these documents are made in
+``as_system()``: as Administrator, owned by the user who issued them.
 """
+
+from contextlib import contextmanager
 
 import frappe
 from frappe import _
@@ -28,6 +34,34 @@ def student_customer(student):
 	if not customer and frappe.get_meta("Customer").has_field("custom_student_id"):
 		customer = frappe.db.get_value("Customer", {"custom_student_id": student})
 	return customer
+
+
+@contextmanager
+def as_system():
+	"""Run as Administrator and give back the request's session afterwards; yields the real user.
+
+	frappe.set_user also replaces the session id, session data and form_dict of the request,
+	so those are restored, not just the user. Only library code that has already validated
+	its own document runs inside this.
+	"""
+	local = frappe.local
+	user = local.session.user
+	if user == "Administrator":
+		yield user
+		return
+	saved = (local.session.sid, local.session.data, local.form_dict)
+	frappe.set_user("Administrator")
+	try:
+		yield user
+	finally:
+		frappe.set_user(user)
+		local.session.sid, local.session.data, local.form_dict = saved
+
+
+def keep_owner(doc, user):
+	"""Frappe makes the session user (here Administrator) the owner on insert: give it back."""
+	if user and user != doc.owner:
+		doc.db_set("owner", user, update_modified=False)
 
 
 def _library_flags(doc):
@@ -79,9 +113,11 @@ def make_sales_invoice(*, customer, company, posting_date, rows, income_account,
 			line.update(warehouse=settings.library_warehouse, expense_account=settings.issue_expense_account)
 		invoice.append("items", line)
 	_library_flags(invoice)
-	invoice.run_method("set_missing_values")
-	invoice.insert()
-	invoice.submit()
+	with as_system() as user:
+		invoice.run_method("set_missing_values")
+		invoice.insert()
+		invoice.submit()
+	keep_owner(invoice, user)
 	return invoice
 
 
@@ -109,9 +145,11 @@ def make_stock_entry(*, purpose, company, posting_date, rows, issuance=None, doc
 			"cost_center": settings.default_cost_center,
 		})
 	_library_flags(entry)
-	entry.run_method("set_missing_values")
-	entry.insert()
-	entry.submit()
+	with as_system() as user:
+		entry.run_method("set_missing_values")
+		entry.insert()
+		entry.submit()
+	keep_owner(entry, user)
 	return entry
 
 
@@ -140,7 +178,8 @@ def cancel_document(doctype, name):
 	doc = frappe.get_doc(doctype, name)
 	if doc.docstatus == 1:
 		_library_flags(doc)
-		doc.cancel()
+		with as_system():
+			doc.cancel()
 
 
 def guard_library_document(doc, method=None):

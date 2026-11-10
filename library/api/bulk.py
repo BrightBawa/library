@@ -78,7 +78,7 @@ def run_bulk_issue(bulk_issue, user=None, commit_every=10):
 		idx += 1
 		_add_result(bulk.name, idx, {"student": student, "student_name": frappe.db.get_value("Student", student, "student_name"),
 			"status": status, "issuance": issuance, "message": message})
-		if position % commit_every == 0 or position == len(students):
+		if (commit_every and position % commit_every == 0) or position == len(students):
 			bulk.db_set({"created_count": counts["Created"], "skipped_count": counts["Skipped"],
 				"failed_count": counts["Failed"]}, update_modified=False)
 			frappe.db.commit()

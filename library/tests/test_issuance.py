@@ -115,7 +115,7 @@ class TestIssuance(IssuanceTestCase):
 		lending = make_book("_Test Scanned Novel").name
 		copy = make_copy(lending, barcode="LIBTEST0001").name
 		found = scan.resolve("LIBTEST0001")
-		self.assertEqual((found.name, found.copy), (lending, copy))
+		self.assertEqual((found.name, found.book_copy), (lending, copy))
 		item = frappe.get_doc("Item", self.free.item)
 		item.append("barcodes", {"barcode": "LIBTEST-ITEM-1"})
 		item.save()
