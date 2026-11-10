@@ -99,6 +99,13 @@ class TestIssuance(IssuanceTestCase):
 		messages = " ".join(str(m) for m in frappe.local.message_log)
 		self.assertIn("already issued", messages)
 
+	def test_the_issuance_slip_renders_billed_and_free_books(self):
+		issuance = make_issuance(self.sm.member, [(self.billed.name, 1), (self.free.name, 1)])
+		html = frappe.get_print("Library Book Issuance", issuance.name, print_format="Library Issuance Slip")
+		for text in ("Billed to the student", "Issued free", "_Test Maths Textbook", "_Test Exercise Book",
+				issuance.sales_invoice, frappe.get_fullname(issuance.issued_by)):
+			self.assertIn(text, html)
+
 	def test_library_documents_cannot_be_made_or_cancelled_outside_the_library(self):
 		issuance = make_issuance(self.sm.member, [(self.billed.name, 1)])
 		invoice = frappe.get_doc("Sales Invoice", issuance.sales_invoice)
